@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111024023908) do
+ActiveRecord::Schema.define(:version => 20111025032830) do
 
   create_table "links", :force => true do |t|
     t.string   "type",       :null => false
@@ -34,5 +34,19 @@ ActiveRecord::Schema.define(:version => 20111024023908) do
 
   add_index "nodes", ["title"], :name => "index_nodes_on_title"
   add_index "nodes", ["uuid"], :name => "index_nodes_on_uuid", :unique => true
+
+  create_table "syncs", :force => true do |t|
+    t.string   "endpoint",        :null => false
+    t.string   "name"
+    t.string   "description"
+    t.time     "sync_began"
+    t.time     "sync_finished"
+    t.boolean  "sync_successful"
+    t.string   "sync_error"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "syncs", ["endpoint"], :name => "index_syncs_on_endpoint"
 
 end
