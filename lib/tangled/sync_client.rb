@@ -5,21 +5,45 @@ module Tangled
   class SyncClient
 
     def init(endpoint)
-      @last_sync = Sync.last.where(:endpoint => "http://localhost:3001")
-      gather_local
-      # Gather local changes since last sync
-      # Request remote changes since last sync
+      @last_sync = Sync.last.where(:endpoint => @endpoint)
+      @this_sync = Sync.new(:endpoint => @endpoint).save
+      @local_changes = gather_local
+      @remote_changes = gather_remote
     end
 
     def gather_local
-      Tangle::Application.config.syncable_models.each do |m|
-        key = m.class.to_s.tableize
-        @local_changes = {}
-        @local_changes[key] = {}
-        @local_changes[key][:created] = m.where("created_at < ", @last_sync.sync_finished, @last_sync.sync_finished)
-        @local_changes[key][:modified] = m.where("updated_at < ", @last_sync.sync_finished, @last_sync.sync_finished)
-      end
+      # TODO - count, batch
+      changes = {}
+      Tangle::Application.config.syncable_models.each{|m|
+        model = m.to_s.tableize
+        changes[model] = {}
+        if @last_sync
+          changes[model][:created] = m.where("created_at < ?", @last_sync.sync_finished)
+          changes[model][:modified] = m.where("updated_at < ?", @last_sync.sync_finished)
+        else
+          changes[model][:created] = m.all
+          changes[model][:modified] = []
+        end
+        changes
+      }
+    end
 
+    def gather_remote
+      # @endpoint = 'http://localhost:3000'
+      changes = {}
+      Tangle::Application.config.syncable_models.each{ |m|
+        model = m.to_s.tableize
+        changes[model] = {}
+        resource = RestClient::Resource.new "http://localhost:3000/#{model}.json"
+        if @last_sync
+          changes[model][:created] = resource.get
+          changes[model][:modified] = resource.get :params => {:modified_after => @last_sync.sync_finished}
+        else
+          changes[model][:created] = resource.get
+          changes[model][:modified] = []
+        end
+      }
+      changes
     end
 
   end
