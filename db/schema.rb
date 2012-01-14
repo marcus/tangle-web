@@ -14,20 +14,20 @@
 ActiveRecord::Schema.define(:version => 20111025032830) do
 
   create_table "links", :force => true do |t|
-    t.string   "type",       :null => false
-    t.string   "node_uuid",  :null => false
-    t.string   "uuid",       :null => false
+    t.string   "node_uuid"
+    t.string   "relationship_uuid"
+    t.string   "relationship_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "links", ["node_uuid"], :name => "index_links_on_node_uuid"
-  add_index "links", ["uuid"], :name => "index_links_on_uuid", :unique => true
+  add_index "links", ["relationship_uuid"], :name => "index_links_on_relationship_uuid"
 
   create_table "nodes", :force => true do |t|
+    t.string   "uuid",        :null => false
     t.string   "title",       :null => false
     t.string   "description"
-    t.string   "uuid",        :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

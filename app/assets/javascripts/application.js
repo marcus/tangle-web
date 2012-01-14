@@ -4,6 +4,8 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery
+//= require vendor/jquery-1.7.1.min.js
+//= require vendor/underscore.js
+//= require vendor/backbone.js
 //= require jquery_ujs
 //= require_tree .

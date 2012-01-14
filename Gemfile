@@ -11,6 +11,7 @@ gem 'json'
 
 gem 'rest-client'
 
+gem 'seed-fu', '~> 2.1.0'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -25,7 +26,7 @@ gem 'jquery-rails'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
