@@ -3,9 +3,9 @@ Nodes.namespace "Nodes.App"
 Nodes.App = Backbone.View.extend(
   collection: {}
 
-  initialize: (initialNodes, nodesCollection) ->
-    @collection = nodesCollection
-    @addAll(initialNodes)
+  initialize: (options) ->
+    @collection = options.nodesCollection
+    @addAll(options.initialNodes)
 
   addAll: (nodes) ->
     _.each nodes, (n) =>
@@ -17,5 +17,5 @@ Nodes.App = Backbone.View.extend(
 
 jQuery(document).ready( ->
   Nodes.nodesCollection = new Nodes.Collections.NodesCollection
-  Nodes.nodeApp = new Nodes.App(initialNodes, Nodes.nodesCollection)
+  Nodes.nodeApp = new Nodes.App({initialNodes: initialNodes, nodesCollection: Nodes.nodesCollection})
 )

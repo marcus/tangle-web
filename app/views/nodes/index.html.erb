@@ -1,4 +1,8 @@
-Hi.
+<div id="parent_nodes"></div>
+<div id="selected_node"></div>
+<div id="sibling_nodes"></div>
+<div id="children_nodes"></div>
+<div id="notes"></div>
 <script>
   var initialNodes = <%= raw @nodes.map{|n| n.to_json}.to_json %>;
 </script>

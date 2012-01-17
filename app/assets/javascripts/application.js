@@ -8,6 +8,7 @@
 //= require vendor/jquery-1.7.1.min.js
 //= require vendor/underscore.js
 //= require vendor/backbone.js
+//= require vendor/jquery.masonry.js
 //= require jquery_ujs
 
 //= require lib/nodes_namespace
