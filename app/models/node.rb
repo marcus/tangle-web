@@ -12,7 +12,7 @@ class Node < ActiveRecord::Base
       :uuid => uuid,
       :title => title,
       :description => description
-    }
+    }.to_json
   end
 
 end

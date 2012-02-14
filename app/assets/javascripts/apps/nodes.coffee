@@ -1,21 +1,26 @@
 Nodes.namespace "Nodes.App"
 
 Nodes.App = Backbone.View.extend(
-  collection: {}
+  initialize: ->
+    @assignElements()
+    @addPrimaryNode new Nodes.Models.Node @options.primaryNode
 
-  initialize: (options) ->
-    @collection = options.nodesCollection
-    @addAll(options.initialNodes)
+  addPrimaryNode: (m)->
+    v = new Nodes.NodeView(model: m)
+    console.log @primaryNodeEl
+    @primaryNodeEl.html v.render().el
 
-  addAll: (nodes) ->
-    _.each nodes, (n) =>
-      @collection.add new Nodes.Models.Node(n)
+  assignElements: ->
+    @parentNodesEl = @$('#parent_nodes')
+    @primaryNodeEl = @$('#primary_node')
+    @siblingNodesEl = @$('#sibling_nodes')
+    @childrenNodesEl = @$('#children_nodes')
+    @notesEl = @$('#notes')
 
 )
 
 #######
 
 jQuery(document).ready( ->
-  Nodes.nodesCollection = new Nodes.Collections.NodesCollection
-  Nodes.nodeApp = new Nodes.App({initialNodes: initialNodes, nodesCollection: Nodes.nodesCollection})
+  Nodes.nodeApp = new Nodes.App({primaryNode: primaryNode, el: $('#nodes_app')})
 )

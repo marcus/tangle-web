@@ -1,8 +1,10 @@
-<div id="parent_nodes"></div>
-<div id="selected_node"></div>
-<div id="sibling_nodes"></div>
-<div id="children_nodes"></div>
-<div id="notes"></div>
+<div id="nodes_app">
+  <div id="parent_nodes"></div>
+  <div id="primary_node"></div>
+  <div id="sibling_nodes"></div>
+  <div id="children_nodes"></div>
+  <div id="notes"></div>
+</div>
 <script>
-  var initialNodes = <%= raw @nodes.map{|n| n.to_json}.to_json %>;
+  var primaryNode = <%= raw @primary_node.to_json %>;
 </script>
