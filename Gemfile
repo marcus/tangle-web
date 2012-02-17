@@ -29,6 +29,10 @@ gem 'jquery-rails'
 # Use unicorn as the web server
 gem 'unicorn'
 
+group :development do
+  gem 'pry-rails'
+end
+
 # Deploy with Capistrano
 # gem 'capistrano'
 

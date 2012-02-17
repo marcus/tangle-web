@@ -4,7 +4,6 @@ Nodes.NodeView = Backbone.View.extend(
 
   render: ->
     values = @model.attributes
-    console.log values
     @$el.html @template(values)
     this
 

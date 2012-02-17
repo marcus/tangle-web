@@ -1,3 +1,6 @@
 Nodes.namespace "Nodes.Models.Node"
 
-Nodes.Models.Node = Backbone.Model.extend()
+Nodes.Models.Node = Backbone.Model.extend(
+  children: ->
+
+)

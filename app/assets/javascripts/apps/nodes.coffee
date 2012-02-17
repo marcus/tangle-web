@@ -3,12 +3,14 @@ Nodes.namespace "Nodes.App"
 Nodes.App = Backbone.View.extend(
   initialize: ->
     @assignElements()
-    @addPrimaryNode new Nodes.Models.Node @options.primaryNode
+    @focusNode new Nodes.Models.Node @options.primaryNode
 
-  addPrimaryNode: (m)->
-    v = new Nodes.NodeView(model: m)
-    console.log @primaryNodeEl
-    @primaryNodeEl.html v.render().el
+  focusNode: (m)->
+    pnv = new Nodes.NodeView(model: m) # Find views
+    @primaryNodeEl.html pnv.render().el
+    @findAndRenderChildren(m)
+
+  findAndRenderChildren: (m) ->
 
   assignElements: ->
     @parentNodesEl = @$('#parent_nodes')
@@ -16,7 +18,6 @@ Nodes.App = Backbone.View.extend(
     @siblingNodesEl = @$('#sibling_nodes')
     @childrenNodesEl = @$('#children_nodes')
     @notesEl = @$('#notes')
-
 )
 
 #######
