@@ -1,1 +1,1 @@
-Tangle::Application.config.syncable_models = [Link, Node]
+Tangle::Application.config.syncable_models = [Node]

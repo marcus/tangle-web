@@ -11,42 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111025032830) do
+ActiveRecord::Schema.define(:version => 20120218224523) do
 
-  create_table "links", :force => true do |t|
-    t.string   "node_uuid"
-    t.string   "relationship_uuid"
-    t.string   "relationship_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "nodes", :id => false, :force => true do |t|
+    t.string       "uuid",          :limit => 36
+    t.string       "title",                       :null => false
+    t.string       "description"
+    t.string_array "parent_uuids"
+    t.string_array "child_uuids"
+    t.string_array "sibling_uuids"
+    t.datetime     "created_at",                  :null => false
+    t.datetime     "updated_at",                  :null => false
   end
 
-  add_index "links", ["node_uuid"], :name => "index_links_on_node_uuid"
-  add_index "links", ["relationship_uuid"], :name => "index_links_on_relationship_uuid"
-
-  create_table "nodes", :force => true do |t|
-    t.string   "uuid",        :null => false
-    t.string   "title",       :null => false
-    t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
+  add_index "nodes", ["child_uuids"], :name => "index_nodes_on_child_uuids"
+  add_index "nodes", ["parent_uuids"], :name => "index_nodes_on_parent_uuids"
+  add_index "nodes", ["sibling_uuids"], :name => "index_nodes_on_sibling_uuids"
   add_index "nodes", ["title"], :name => "index_nodes_on_title"
   add_index "nodes", ["uuid"], :name => "index_nodes_on_uuid", :unique => true
-
-  create_table "syncs", :force => true do |t|
-    t.string   "endpoint",        :null => false
-    t.string   "name"
-    t.string   "description"
-    t.time     "sync_began"
-    t.time     "sync_finished"
-    t.boolean  "sync_successful"
-    t.string   "sync_error"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "syncs", ["endpoint"], :name => "index_syncs_on_endpoint"
 
 end
