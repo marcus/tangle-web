@@ -5,11 +5,14 @@
 // the compiled file.
 //
 // VENDOR STUFF
-//= require vendor/jquery-1.7.1.min.js
-//= require vendor/underscore.js
-//= require vendor/backbone.js
-//= require vendor/jquery.masonry.js
+//= require vendor/jquery-1.7.1.min
+//= require vendor/underscore
+//= require vendor/backbone
+//= require vendor/jquery.masonry
 //= require jquery_ujs
+
+// Backbone overrides
+//= require lib/backbone
 
 //= require lib/nodes_namespace
 //= require lib/namespace

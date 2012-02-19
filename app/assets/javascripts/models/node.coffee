@@ -1,6 +1,12 @@
 Nodes.namespace "Nodes.Models.Node"
 
 Nodes.Models.Node = Backbone.Model.extend(
-  children: ->
+  idAttribute: "uuid"
+
+  url: ->
+    if @isNew()
+      '/nodes.json'
+    else
+      'nodes/' + @attributes('guid') + '.json'
 
 )
