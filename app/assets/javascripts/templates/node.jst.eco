@@ -1,1 +1,1 @@
-Name: <%= @title %>
+<div class="node"><%= @title %></div>

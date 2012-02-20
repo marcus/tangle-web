@@ -16,23 +16,24 @@ Nodes.App = Backbone.View.extend(
   focusNode: (m) ->
     nv = new Nodes.NodeView(model: m) # TODO - cache and Find views
     @primaryNodeEl.html nv.render().el
-    @notesEl.html(m.get('description')) # TODO - create a new view for this
+    @clearExistingNodes()
     @findAndRenderParents(m)
     @findAndRenderSiblings(m)
     @findAndRenderChildren(m)
+    @notesEl.html(m.get('description')) # TODO - create a new view for this
 
-  # TODO - obv this could all be consolidated
+  getNodeView: (m) ->
+    nv = new Nodes.NodeView(model: m, controller: this) # TODO - search the cache
+
+  # TODO - DRY
   addParentNode: (m) ->
-    nv = new Nodes.NodeView(model: m) # TODO - search the cache
-    @parentNodesEl.append nv.render().el
+    @parentNodesEl.append @getNodeView(m).render().el
 
   addChildNode: (m) ->
-    nv = new Nodes.NodeView(model: m) # TODO - search the cache
-    @childrenNodesEl.append nv.render().el
+    @childrenNodesEl.append @getNodeView(m).render().el
 
   addSiblingNode: (m) ->
-    nv = new Nodes.NodeView(model: m) # TODO - search the cache
-    @siblingNodesEl.append nv.render().el
+    @siblingNodesEl.append @getNodeView(m).render().el
 
   findAndRenderParents: (m) ->
     _.each m.get('parent_uuids'), (uuid) => @addParentNode @collection.get(uuid)
@@ -42,6 +43,9 @@ Nodes.App = Backbone.View.extend(
 
   findAndRenderChildren: (m) ->
     _.each m.get('child_uuids'), (uuid) => @addChildNode @collection.get(uuid)
+
+  clearExistingNodes: ->
+    _.each [@parentNodesEl, @childrenNodesEl, @siblingNodesEl, @notesEl], (n) -> n.html('')
 
   assignElements: ->
     @parentNodesEl = @$('#parent_nodes')

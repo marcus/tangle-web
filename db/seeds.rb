@@ -18,7 +18,7 @@ foosball.update_attributes :parent_uuids => [table_games.uuid], :sibling_uuids =
 ping_pong.update_attributes :parent_uuids => [table_games.uuid], :sibling_uuids => [foosball.uuid, billiards.uuid]
 billiards.update_attributes :parent_uuids => [table_games.uuid], :sibling_uuids => [foosball.uuid, ping_pong.uuid]
 
-board_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [table_games], :child_uuids => [foosball.uuid, ping_pong.uuid, billiards.uuid]
-table_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [board_games]
+board_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [table_games.uuid], :child_uuids => [foosball.uuid, ping_pong.uuid, billiards.uuid]
+table_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [board_games.uuid]
 
 games.update_attributes :parent_uuids => [games.uuid], :child_uuids => [board_games.uuid, table_games.uuid]

@@ -1,15 +1,38 @@
 <div id="nodes_app">
-  Parents
-  <div id="parent_nodes"></div>
-  Primary
-  <div id="primary_node" style="font-weight: bold;"></div>
-  Siblings
-  <div id="sibling_nodes"></div>
-  Children
-  <div id="children_nodes"></div>
+  <div class="row">
+    <div class="span3">_</div>
+    <div class="span6" id="primary_container">
+      <h2><div id="primary_node" style="font-weight: bold;"></div></h2>
+    </div>
+    <div class="span3">_</div>
+  </div>
 
-  Notes
-  <div id="notes"></div>
+  <div class="row">
+
+    <div class="span3" id="parent_container">
+      <h4>Parents</h4>
+      <div id="parent_nodes"></div>
+    </div>
+
+    <div class="span6" id="notes_container">
+      <h4>Notes</h4>
+      <div id="notes"></div>
+    </div>
+
+    <div class="span3"id="children_container">
+      <h4>Children</h4>
+      <div id="children_nodes"></div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="span12" id="siblings_container">
+      <h4>Siblings</h4>
+      <div id="sibling_nodes"></div>
+    </div>
+  </div>
+
 </div>
 <script>
   var primaryNode = <%= raw @primary_node.to_json %>;

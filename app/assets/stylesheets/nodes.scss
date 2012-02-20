@@ -5,17 +5,37 @@
   box-sizing: border-box;
 }
 
-#parent_nodes {
+#parent_container {
+  #parent_nodes {
+  }
 }
 
-#selected_node {
+#primary_container {
+  #primary_node {
+  }
 }
 
-#sibling_nodes {
+#siblings_container {
+  padding: 10px;
+  #sibling_nodes {
+  }
 }
 
-#children_nodes {
+#children_container {
+  #children_nodes {
+  }
+}
+#notes_container {
+  /* float: left; */
+  #notes {
+  }
 }
 
-#notes {
+.node {
+  float: left;
+  padding: 5px;
+  border: 1px #ffcc11 solid;
+  border-radius: 4px 4px 4px;
+  margin: 5px;
+  cursor: pointer;
 }
