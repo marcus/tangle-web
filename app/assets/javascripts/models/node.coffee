@@ -7,6 +7,6 @@ Nodes.Models.Node = Backbone.Model.extend(
     if @isNew()
       '/nodes.json'
     else
-      'nodes/' + @attributes('guid') + '.json'
+      '/nodes/' + @get('uuid') + '.json'
 
 )

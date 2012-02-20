@@ -36,13 +36,13 @@ Nodes.App = Backbone.View.extend(
     @siblingNodesEl.append @getNodeView(m).render().el
 
   findAndRenderParents: (m) ->
-    _.each m.get('parent_uuids'), (uuid) => @addParentNode @collection.get(uuid)
+    _.each m.get('parent_uuids'), (uuid) => @addParentNode @collection.try(uuid)
 
   findAndRenderSiblings: (m) ->
-    _.each m.get('sibling_uuids'), (uuid) => @addSiblingNode @collection.get(uuid)
+    _.each m.get('sibling_uuids'), (uuid) => @addSiblingNode @collection.try(uuid)
 
   findAndRenderChildren: (m) ->
-    _.each m.get('child_uuids'), (uuid) => @addChildNode @collection.get(uuid)
+    _.each m.get('child_uuids'), (uuid) => @addChildNode @collection.try(uuid)
 
   clearExistingNodes: ->
     _.each [@parentNodesEl, @childrenNodesEl, @siblingNodesEl, @notesEl], (n) -> n.html('')

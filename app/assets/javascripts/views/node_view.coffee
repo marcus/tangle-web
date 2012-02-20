@@ -2,6 +2,7 @@ Nodes.NodeView = Backbone.View.extend(
   initialize: ->
     @controller = @options.controller
     @template = JST['templates/node']
+    @model.on 'change', => @render() # TODO - use bindings
 
   render: ->
     values = @model.attributes

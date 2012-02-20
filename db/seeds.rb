@@ -21,4 +21,4 @@ billiards.update_attributes :parent_uuids => [table_games.uuid], :sibling_uuids 
 board_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [table_games.uuid], :child_uuids => [foosball.uuid, ping_pong.uuid, billiards.uuid]
 table_games.update_attributes :parent_uuids => [games.uuid], :sibling_uuids => [board_games.uuid]
 
-games.update_attributes :parent_uuids => [games.uuid], :child_uuids => [board_games.uuid, table_games.uuid]
+games.update_attributes :parent_uuids => [], :child_uuids => [board_games.uuid, table_games.uuid]
