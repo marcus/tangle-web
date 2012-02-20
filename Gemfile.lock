@@ -63,6 +63,7 @@ GEM
     method_source (0.7.0)
     mime-types (1.17.2)
     multi_json (1.0.4)
+    nokogiri (1.5.0)
     pg (0.11.0)
     polyglot (0.3.3)
     pry (0.9.8.2)
@@ -133,6 +134,7 @@ DEPENDENCIES
   eco
   jquery-rails
   json
+  nokogiri
   pg
   pry-rails
   rails (~> 3.2.1)
