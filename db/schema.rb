@@ -13,4 +13,31 @@
 
 ActiveRecord::Schema.define(:version => 20120218224523) do
 
+  create_table "links", :id => false, :force => true do |t|
+    t.string   "uuid",        :limit => 36
+    t.string   "node_a_uuid", :limit => 36
+    t.string   "node_b_uuid", :limit => 36
+    t.integer  "direction"
+    t.datetime "activated"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "links", ["direction"], :name => "index_links_on_direction"
+  add_index "links", ["node_a_uuid"], :name => "index_links_on_node_a_uuid"
+  add_index "links", ["node_b_uuid"], :name => "index_links_on_node_b_uuid"
+  add_index "links", ["uuid"], :name => "index_links_on_uuid", :unique => true
+
+  create_table "nodes", :id => false, :force => true do |t|
+    t.string   "uuid",        :limit => 36
+    t.string   "title",                     :null => false
+    t.string   "description"
+    t.datetime "activated"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "nodes", ["title"], :name => "index_nodes_on_title"
+  add_index "nodes", ["uuid"], :name => "index_nodes_on_uuid", :unique => true
+
 end

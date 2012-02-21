@@ -10,9 +10,9 @@ class InitialNodeTable < ActiveRecord::Migration
 
     create_table "links", :id => false, :force => true do |t|
       t.string "uuid", :limit => 36, :primary => true
-      t.string "node_uuid"
-      t.string "relationship_uuid"
-      t.string "relationship_type"
+      t.string "node_a_uuid", :limit => 36
+      t.string "node_b_uuid", :limit => 36
+      t.integer "direction"
       t.datetime "activated"
       t.timestamps
     end
@@ -21,8 +21,9 @@ class InitialNodeTable < ActiveRecord::Migration
     add_index :nodes, :uuid, :unique => true
 
     add_index :links, :uuid, :unique => true
-    add_index :links, :node_uuid
-    add_index :links, :relationship_uuid
+    add_index :links, :node_a_uuid
+    add_index :links, :node_b_uuid
+    add_index :links, :direction
   end
 
   def down
