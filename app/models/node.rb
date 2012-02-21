@@ -35,3 +35,23 @@ class Node < ActiveRecord::Base
   end
 
 end
+
+# Link
+# NodeA
+# NodeB
+# Direction
+  # 1 = NodeA is parent of NodeB
+  # 2 = NodeA is child of NodeB
+  # 3 = siblings
+
+# Chilren
+# nodeB where nodeA = guid AND direction = 1
+# nodeA where nodeB = guid AND direction = 2
+#
+# Parents
+# nodeA where nodeB = guid AND direction = 1
+# nodeB where nodeA = guid AND direction = 2
+#
+# Siblings
+# nodeB where nodeA = guid AND direction = 3
+# nodeA where nodeB = guid AND direction = 3
