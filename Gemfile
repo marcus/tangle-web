@@ -13,6 +13,7 @@ gem 'ar_pg_array'
 gem 'uuidtools'
 
 gem 'json'
+gem 'seed-fu'
 
 gem 'rest-client'
 

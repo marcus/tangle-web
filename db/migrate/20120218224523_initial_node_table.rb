@@ -4,20 +4,29 @@ class InitialNodeTable < ActiveRecord::Migration
       t.string   "uuid",     :limit => 36, :primary => true
       t.string   "title",    :null => false
       t.string   "description"
-      t.string_array "parent_uuids"
-      t.string_array "child_uuids"
-      t.string_array "sibling_uuids"
+      t.datetime "activated"
+      t.timestamps
+    end
+
+    create_table "links", :id => false, :force => true do |t|
+      t.string "uuid", :limit => 36, :primary => true
+      t.string "node_uuid"
+      t.string "relationship_uuid"
+      t.string "relationship_type"
+      t.datetime "activated"
       t.timestamps
     end
 
     add_index :nodes, :title
     add_index :nodes, :uuid, :unique => true
-    add_index :nodes, :parent_uuids
-    add_index :nodes, :child_uuids
-    add_index :nodes, :sibling_uuids
+
+    add_index :links, :uuid, :unique => true
+    add_index :links, :node_uuid
+    add_index :links, :relationship_uuid
   end
 
   def down
     drop_table "nodes"
+    drop_table "links"
   end
 end
