@@ -44,7 +44,7 @@ class Import::PersonalBrainImport
     direction = l.xpath('dir')[0].try(:content)
     # 1 = source is parent of destination
     # 2 = source is child of destination
-    # 3 = siblings
+    # 3 = companions
     if guid_a && guid_b && direction
       link = Link.new(:node_a_uuid => get_tangle_uuid(guid_a),
                       :node_b_uuid => get_tangle_uuid(guid_b),

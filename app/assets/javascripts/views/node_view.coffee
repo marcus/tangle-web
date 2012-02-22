@@ -10,10 +10,12 @@ Nodes.NodeView = Backbone.View.extend(
     this
 
   events: ->
-    'click'  :     'focus'
+    'click'        :     'focus'
+    'click .uuid'  : 'ignore'
 
   focus: ->
     @controller.focusNode @model
 
+  ignore: -> false
 
 )

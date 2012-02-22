@@ -1,1 +1,4 @@
-<div class="node"><%= @title %></div>
+<div class="node">
+  <div class="title"><%= @title %></div>
+  <div class="uuid"><%= @uuid %></div>
+</div>

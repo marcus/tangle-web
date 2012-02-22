@@ -18,7 +18,7 @@ Nodes.App = Backbone.View.extend(
     @primaryNodeEl.html nv.render().el
     @clearExistingNodes()
     @findAndRenderParents(m)
-    @findAndRenderSiblings(m)
+    @findAndRendercompanions(m)
     @findAndRenderChildren(m)
     @notesEl.html(m.get('description')) # TODO - create a new view for this
 
@@ -32,25 +32,25 @@ Nodes.App = Backbone.View.extend(
   addChildNode: (m) ->
     @childrenNodesEl.append @getNodeView(m).render().el
 
-  addSiblingNode: (m) ->
-    @siblingNodesEl.append @getNodeView(m).render().el
+  addcompanionNode: (m) ->
+    @companionNodesEl.append @getNodeView(m).render().el
 
   findAndRenderParents: (m) ->
     _.each m.get('parent_uuids'), (uuid) => @addParentNode @collection.try(uuid)
 
-  findAndRenderSiblings: (m) ->
-    _.each m.get('sibling_uuids'), (uuid) => @addSiblingNode @collection.try(uuid)
+  findAndRendercompanions: (m) ->
+    _.each m.get('companion_uuids'), (uuid) => @addcompanionNode @collection.try(uuid)
 
   findAndRenderChildren: (m) ->
     _.each m.get('child_uuids'), (uuid) => @addChildNode @collection.try(uuid)
 
   clearExistingNodes: ->
-    _.each [@parentNodesEl, @childrenNodesEl, @siblingNodesEl, @notesEl], (n) -> n.html('')
+    _.each [@parentNodesEl, @childrenNodesEl, @companionNodesEl, @notesEl], (n) -> n.html('')
 
   assignElements: ->
     @parentNodesEl = @$('#parent_nodes')
     @primaryNodeEl = @$('#primary_node')
-    @siblingNodesEl = @$('#sibling_nodes')
+    @companionNodesEl = @$('#companion_nodes')
     @childrenNodesEl = @$('#children_nodes')
     @notesEl = @$('#notes')
 )

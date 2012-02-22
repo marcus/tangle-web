@@ -7,7 +7,7 @@ Nodes.NodesCollection = Backbone.Collection.extend(
     _.each models, (m) => @getModelsFromRelationships(m)
 
   getModelsFromRelationships: (m) ->
-    _.each ['children', 'parents', 'siblings'], (relation) =>
+    _.each ['children', 'parents', 'companions'], (relation) =>
       _.each m.get(relation), (nodeJson) => @add new Nodes.Models.Node nodeJson
 
   # Look for it, if we don't have it, return a shim then make the request in
