@@ -1,21 +1,8 @@
 class Node < ActiveRecord::Base
   include Extensions::UUID
-
-  # has_many :links, :foreign_key => :node_uuid
-
-  # has_many :children_links, :class_name => "Link", :foreign_key => :node_uuid, :conditions => "relationship_type = 'child'"
-  # has_many :parent_links, :class_name => "Link", :foreign_key => :node_uuid, :conditions => "relationship_type = 'parent'"
-  # has_many :companion_links, :class_name => "Link", :foreign_key => :node_uuid, :conditions => "relationship_type = 'companion'"
-
-  # has_many :relationships, :through => :links, :source => :node
-
-  # has_many :children, :through => :children_links, :source => :parent_node
-  # has_many :parents, :through => :parent_links, :source => :child_node
-  # has_many :companions, :through => :companion_links, :source => :companion_node
-
   # 1 = NodeA is parent of NodeB
   # 2 = NodeA is child of NodeB
-  # 3 = companions
+  # 3 = NodeA and NodeB are companions
 
   # Children
   # nodeB where nodeA = uuid AND direction = 1

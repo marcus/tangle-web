@@ -7,6 +7,13 @@
 
 #parent_container {
   #parent_nodes {
+    .node {
+      border: none;
+      .node {
+        border: 1px #ffcc11 solid;
+        border-radius: 4px 4px 4px;
+      }
+    }
   }
 }
 
@@ -39,6 +46,7 @@
   margin: 5px;
   cursor: pointer;
   .uuid {
+    display:none;
     cursor: default;
     font-size: 8px;
   }

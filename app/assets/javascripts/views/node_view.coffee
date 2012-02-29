@@ -7,6 +7,7 @@ Nodes.NodeView = Backbone.View.extend(
   render: ->
     values = @model.attributes
     @$el.html @template(values)
+    @renderChildren() if @options.renderChildren
     this
 
   events: ->
@@ -17,5 +18,8 @@ Nodes.NodeView = Backbone.View.extend(
     @controller.focusNode @model
 
   ignore: -> false
+
+  renderChildren: ->
+    @controller.findAndRenderChildren(@model, renderContainer: @$('.children'), ignoreFocused: true)
 
 )

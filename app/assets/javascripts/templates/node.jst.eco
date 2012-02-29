@@ -1,4 +1,5 @@
 <div class="node">
   <div class="title"><%= @title %></div>
   <div class="uuid"><%= @uuid %></div>
+  <div class="children"></div>
 </div>

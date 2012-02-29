@@ -14,23 +14,26 @@ Nodes.App = Backbone.View.extend(
     node
 
   focusNode: (m) ->
+    @focusedNode = m
     nv = new Nodes.NodeView(model: m) # TODO - cache and Find views
     @primaryNodeEl.html nv.render().el
     @clearExistingNodes()
     @findAndRenderParents(m)
-    @findAndRendercompanions(m)
+    @findAndRenderCompanions(m)
     @findAndRenderChildren(m)
     @notesEl.html(m.get('description')) # TODO - create a new view for this
 
-  getNodeView: (m) ->
-    nv = new Nodes.NodeView(model: m, controller: this) # TODO - search the cache
+  getNodeView: (m, options = {}) ->
+    args = _.extend options, {model: m, controller: this}
+    nv = new Nodes.NodeView(options) # TODO - search the cache
 
   # TODO - DRY
   addParentNode: (m) ->
-    @parentNodesEl.append @getNodeView(m).render().el
+    @parentNodesEl.append @getNodeView(m, {renderChildren:true, focusedNode: @focusedNode.id}).render().el
 
-  addChildNode: (m) ->
-    @childrenNodesEl.append @getNodeView(m).render().el
+  addChildNode: (m, options = {}) ->
+    renderContainer = options.renderContainer || @childrenNodesEl
+    renderContainer.append @getNodeView(m).render().el
 
   addcompanionNode: (m) ->
     @companionNodesEl.append @getNodeView(m).render().el
@@ -38,11 +41,13 @@ Nodes.App = Backbone.View.extend(
   findAndRenderParents: (m) ->
     _.each m.get('parent_uuids'), (uuid) => @addParentNode @collection.try(uuid)
 
-  findAndRendercompanions: (m) ->
+  findAndRenderCompanions: (m) ->
     _.each m.get('companion_uuids'), (uuid) => @addcompanionNode @collection.try(uuid)
 
-  findAndRenderChildren: (m) ->
-    _.each m.get('child_uuids'), (uuid) => @addChildNode @collection.try(uuid)
+  findAndRenderChildren: (m, options = {}) ->
+    nodes = m.get('child_uuids')
+    nodes = _.reject(nodes, (n) => n == @focusedNode.id) if options.ignoreFocused
+    _.each nodes, (uuid) => @addChildNode @collection.try(uuid), options
 
   clearExistingNodes: ->
     _.each [@parentNodesEl, @childrenNodesEl, @companionNodesEl, @notesEl], (n) -> n.html('')
