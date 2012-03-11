@@ -18,7 +18,29 @@ Nodes.NodesCollection = Backbone.Collection.extend(
     else
       wanted = new Nodes.Models.Node(uuid: id, title: "Loading...")
       @add(wanted)
-      wanted.fetch()
+      @queueFetch(wanted)
       wanted
 
+  fetchQueue: []
+
+  queueFetch: (wanted) ->
+    clearTimeout(@timeout) if @timeout
+    @fetchQueue.push(wanted)
+    @timeout = setTimeout( =>
+      @fetchAll()
+    , 250)
+
+  fetchAll: ->
+    return @fetchQueue[0].fetch if @fetchQueue.length == 0
+    @fetchMultiple(@fetchQueue)
+    @fetchQueue = []
+
+  fetchMultiple: (models) ->
+    $.get('/nodes.json', ids: _.map(@fetchQueue, (m) -> m.id).join(","), (response) => @fetchedMultiple(response))
+
+  fetchedMultiple: (response) ->
+    _.each(response, (n) =>
+      model = @get(n.uuid)
+      model.set(model.parse(n))
+    )
 )
