@@ -52,8 +52,8 @@ class Node < ActiveRecord::Base
   end
 
   def companion_uuids
-    companion_links.map { |sl|
-      sl.node_a_uuid == uuid ? sl.node_b_uuid : sl.node_a_uuid
+    companion_links.map { |cl|
+      cl.node_a_uuid == uuid ? cl.node_b_uuid : cl.node_a_uuid
     }
   end
 
@@ -84,19 +84,31 @@ class Node < ActiveRecord::Base
     n
   end
 
-  def relationships
+  # All links in a single query
+  def related_links
+    links = Link.where ['(node_a_uuid = ?) OR (node_b_uuid = ?)', uuid, uuid]
     {
-      :parents => parents.map{|n|n.to_json(:shallow => true)},
-      :children => children.map{|n|n.to_json(:shallow => true)},
-      :companions => companions.map{|n|n.to_json(:shallow => true)}
+      :parents => links.select{ |l| (l.node_b_uuid == uuid && l.direction == 1) || (l.node_a_uuid == uuid && l.direction == 2) },
+      :children => links.select{ |l| (l.node_a_uuid == uuid && l.direction == 1) || (l.node_b_uuid == uuid && l.direction == 2) },
+      :companions => links.select{ |l| (l.node_a_uuid == uuid && l.direction == 3) || (l.node_b_uuid == uuid && l.direction == 3) }
+    }
+  end
+
+  def relationships
+    ru = relationship_uuids
+    {
+      :parents => Node.find_all_by_uuid(ru[:parents]).map{ |n|n.to_json(:shallow => true) },
+      :children => Node.find_all_by_uuid(ru[:children]).map{ |n|n.to_json(:shallow => true) },
+      :companions => Node.find_all_by_uuid(ru[:companions]).map{ |n|n.to_json(:shallow => true) }
     }
   end
 
   def relationship_uuids
+    rl = related_links
     {
-      :child_uuids => child_uuids,
-      :parent_uuids => parent_uuids,
-      :companion_uuids => companion_uuids,
+      :child_uuids => rl[:children].map{ |cl| cl.direction == 1 ? cl.node_b_uuid : cl.node_a_uuid },
+      :parent_uuids => rl[:parents].map{ |pl| pl.direction == 1 ? pl.node_a_uuid : pl.node_b_uuid },
+      :companion_uuids => rl[:companions].map{|cl| cl.node_a_uuid == uuid ? cl.node_b_uuid : cl.node_a_uuid }
     }
   end
 
