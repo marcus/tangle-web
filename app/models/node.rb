@@ -1,4 +1,5 @@
 class Node < ActiveRecord::Base
+  # TODO - sanitize title and description
   include Extensions::UUID
   # 1 = NodeA is parent of NodeB
   # 2 = NodeA is child of NodeB

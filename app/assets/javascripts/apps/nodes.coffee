@@ -27,9 +27,8 @@ Nodes.App = Backbone.View.extend(
     args = _.extend options, {model: m, controller: this}
     nv = new Nodes.NodeView(options) # TODO - search the cache
 
-  # TODO - DRY
   addParentNode: (m) ->
-    @parentNodesEl.append @getNodeView(m, {renderChildren:true, focusedNode: @focusedNode.id}).render().el
+    @parentNodesEl.append @getNodeView(m, {renderChildren:false, focusedNode: @focusedNode.id}).render().el
 
   addChildNode: (m, options = {}) ->
     renderContainer = options.renderContainer || @childrenNodesEl

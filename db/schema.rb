@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(:version => 20120218224523) do
 
   create_table "nodes", :id => false, :force => true do |t|
     t.string   "uuid",        :limit => 36
-    t.string   "title",                     :null => false
-    t.string   "description"
+    t.text     "title",                     :null => false
+    t.text     "description"
     t.datetime "activated"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
