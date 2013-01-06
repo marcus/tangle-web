@@ -49,6 +49,12 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     hike (1.2.1)
+    html_massage (0.2.1)
+      nokogiri (>= 1.4)
+      rest-client (>= 1.6)
+      reverse_markdown (>= 0.4)
+      sanitize (>= 2.0)
+      thor
     htmlentities (4.3.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -101,6 +107,10 @@ GEM
       json (~> 1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    reverse_markdown (0.4.2)
+      nokogiri
+    sanitize (2.0.3)
+      nokogiri (>= 1.4.4, < 1.6)
     sass (3.2.4)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -137,6 +147,7 @@ DEPENDENCIES
   ar_pg_array
   coffee-rails
   eco
+  html_massage
   htmlentities
   jquery-rails
   json

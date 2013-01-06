@@ -29,24 +29,31 @@ class Import::PersonalBrainImport
   end
 
   def create_nodes
-    @thoughts.each { |t| create_node(t) }
+    puts "Importing #{@thoughts.count} thoughts"
+    @thoughts.each_with_index { |t,i| create_node(t); dot(i) }
   end
 
   def create_descriptions
-    @descriptions.each { |d| add_description(d) }
+    puts "\nImporting #{@descriptions.count} notes/descriptions"
+    @descriptions.each_with_index { |d,i| add_description(d); dot(i) }
   end
 
   def create_links
-    @links.each { |l| create_link(l)}
+    puts "\nImporting #{@links.count} links"
+    @links.each_with_index { |l, i| create_link(l); dot(i) }
+  end
+
+  def dot(index)
+    if index % 10 == 0
+      $stdout.sync = true
+      print "."
+    end
   end
 
   def create_node(thought)
     # Get the PB node content and guid
     content = thought.xpath('name')[0].content
     guid = thought.xpath('guid')[0].content
-
-    #@decoder ||= HTMLEntities.new
-    #description = @decoder.decode find_description_for_guid(guid)
 
     # Save a tangle node
     tangle_node = Node.new(:title => content)#, :description => description)
@@ -65,10 +72,9 @@ class Import::PersonalBrainImport
   def add_description(d)
     node_guid = d.xpath('EntryObjects//EntryObject//objectID')[0].try(:content)
     content = d.xpath('body')[0].try(:content)
-    puts "Getting notes for #{node_guid}" if content && !content.blank?
     if !content.blank?
       @decoder ||= HTMLEntities.new
-      content = @decoder.decode content
+      content = HtmlMassage.html(@decoder.decode(content))
 
       node = Node.find(@node_map[node_guid])
       if node

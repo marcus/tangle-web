@@ -4,7 +4,7 @@ namespace :import do
     require(Rails.root.join('lib/import/personal_brain_import.rb'))
     i = Import::PersonalBrainImport.new
     i.import
-    puts "Created #{Link.all.count} links and #{Node.all.count} nodes."
+    puts "\nCreated #{Link.all.count} links and #{Node.all.count} nodes."
   end
 
   desc "Drop existing nodes and links"
