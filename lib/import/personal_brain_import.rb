@@ -7,6 +7,10 @@ class Import::PersonalBrainImport
     f = File.open(path)
     @doc = Nokogiri::XML(f)
     f.close
+    #@doc
+  end
+
+  def doc
     @doc
   end
 
@@ -17,7 +21,7 @@ class Import::PersonalBrainImport
     @thoughts = @doc.xpath('//Thought')
     @links = @doc.xpath('//Link')
     @descriptions = @doc.xpath('//Entry')
-    @attachments = @doc.xpath('//Attachment')
+    #@attachments = @doc.xpath('//Attachment')
 
     create_nodes
     create_descriptions
@@ -59,9 +63,10 @@ class Import::PersonalBrainImport
   end
 
   def add_description(d)
-    node_guid = d.xpath('//EntryObjects//EntryObject//objectID')[0].try(:content)
-    content = d.xpath('//body')[0].try(:content)
-    if content
+    node_guid = d.xpath('EntryObjects//EntryObject//objectID')[0].try(:content)
+    content = d.xpath('body')[0].try(:content)
+    puts "Getting notes for #{node_guid}" if content && !content.blank?
+    if !content.blank?
       @decoder ||= HTMLEntities.new
       content = @decoder.decode content
 
