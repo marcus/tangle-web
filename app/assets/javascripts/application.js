@@ -4,21 +4,16 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-// VENDOR STUFF
-//= require vendor/jquery-1.7.1.min
-//= require vendor/underscore
-//= require vendor/backbone
-//= require vendor/jquery.masonry
-//= require jquery_ujs
-
-// Backbone overrides
-//= require lib/backbone
-
+//= require jquery-1.8.3
+//= require underscore
+//= require backbone
+//= require jquery.masonry.min
+//
 //= require lib/nodes_namespace
 //= require lib/namespace
 //
 //= require collections/nodes_collection
 //= require models/node
 //= require apps/nodes
-//
-//= require_tree .
+//= require views/node_view
+//= require templates/node
