@@ -1,11 +1,11 @@
-# Nodes ||= {} # In application.js since CoffeeScript makes it impossible to create a global
+# Tangle ||= {} # In application.js since CoffeeScript makes it impossible to create a global
 
-Nodes.namespace = (ns_string) ->
+Tangle.namespace = (ns_string) ->
   parts = ns_string.split('.')
-  parent = Nodes
+  parent = Tangle
 
   # strip redundant leading global
-  parts = parts.slice(1) if (parts[0] == "Nodes")
+  parts = parts.slice(1) if (parts[0] == "Tangle")
 
   for part in parts
     # create a property if it doesn't exist

@@ -6,14 +6,18 @@
 //
 //= require jquery-1.8.3
 //= require underscore
-//= require backbone
+//= require angular
+//= require angular-resource
 //= require jquery.masonry.min
 //
-//= require lib/nodes_namespace
+//= require lib/tangle_namespace
 //= require lib/namespace
 //
-//= require collections/nodes_collection
+//= require modules/tangle
 //= require models/node
-//= require apps/nodes
-//= require views/node_view
-//= require templates/node
+//= require services/nodes_service.coffee
+//
+// require collections/nodes_collection
+// require apps/nodes
+// require views/node_view
+// require templates/node

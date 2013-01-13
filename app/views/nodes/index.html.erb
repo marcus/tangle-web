@@ -1,4 +1,19 @@
-<div id="nodes_app">
+<div ng-app="tangle" id="nodes_app">
+  <div ng-controller="Tangle.NodesController">
+    <%= link_to 'Index', '', :'ng-click' => "index()" %>
+    <a ng-click="show('73eec8c3-d516-45fe-bd7b-271d72253956')">Show 73eec8c3-d516-45fe-bd7b-271d72253956</a>
+<%#= link_to 'New', '', :'ng-click' => "new()" %>
+<%#= link_to 'show', '', :'ng-click' => "show(#{node.id})" %>
+<%#= link_to 'edit', '', :'ng-click' => "edit(#{node.id})" %>
+<%#= link_to 'create', '', :'ng-click' => "create({title: 'new node'})" %>
+<%#= link_to 'update', '', :'ng-click' => "update(#{node.id}, {title: '
+updated node'})" %>
+    <ul>
+      <li ng-repeat="node in nodes">
+        {{node.title}}
+      </li>
+    </ul>
+  </div>
 
   <div class="row">
 
