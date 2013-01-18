@@ -1,55 +1,60 @@
 <div ng-app="tangle" id="nodes_app">
   <div ng-controller="Tangle.NodesController">
-    <%= link_to 'Index', '', :'ng-click' => "index()" %>
-    <a ng-click="show('73eec8c3-d516-45fe-bd7b-271d72253956')">Show 73eec8c3-d516-45fe-bd7b-271d72253956</a>
-<%#= link_to 'New', '', :'ng-click' => "new()" %>
-<%#= link_to 'show', '', :'ng-click' => "show(#{node.id})" %>
-<%#= link_to 'edit', '', :'ng-click' => "edit(#{node.id})" %>
-<%#= link_to 'create', '', :'ng-click' => "create({title: 'new node'})" %>
-<%#= link_to 'update', '', :'ng-click' => "update(#{node.id}, {title: '
-updated node'})" %>
     <ul>
       <li ng-repeat="node in nodes">
         {{node.title}}
       </li>
     </ul>
-  </div>
 
-  <div class="row">
+    <div class="row">
 
-    <div class="span12" id="parent_container">
-      <h4>Parents</h4>
-      <div id="parent_nodes"></div>
+      <div class="span12" id="parent_container">
+        <h4>Parents</h4>
+        <div id="parent_nodes">
+          <div ng-repeat="node in parentNodes">
+            <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="span3">_</div>
+      <div class="span6" id="primary_container">
+        <h2><div id="primary_node" style="font-weight: bold;">{{primaryNode.title}}</div></h2>
+      </div>
+      <div class="span3">_</div>
+
+      <div class="span9" id="notes_container">
+        <h4>Notes</h4>
+        <div id="notes" ng-bind-html-unsafe="primaryNode.description"></div>
+      </div>
+
+      <div class="span3"id="companions_container">
+        <h4>Companions</h4>
+        <div id="companion_nodes">
+          <div ng-repeat="node in companionNodes">
+            <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="span12" id="children_container">
+        <h4>Children</h4>
+        <div id="children_nodes">
+          <div ng-repeat="node in childNodes">
+            <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
-
-  <div class="row">
-    <div class="span3">_</div>
-    <div class="span6" id="primary_container">
-      <h2><div id="primary_node" style="font-weight: bold;"></div></h2>
-    </div>
-    <div class="span3">_</div>
-
-    <div class="span9" id="notes_container">
-      <h4>Notes</h4>
-      <div id="notes"></div>
-    </div>
-
-    <div class="span3"id="companions_container">
-      <h4>Companions</h4>
-      <div id="companion_nodes"></div>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="span12" id="children_container">
-      <h4>Children</h4>
-      <div id="children_nodes"></div>
-    </div>
-  </div>
-
+  <div class="error">{{errorText}}</div>
 </div>
 <script>
   var primaryNode = <%= raw @primary_node.to_json %>;

@@ -4,7 +4,11 @@ class NodesController < ApplicationController
     respond_to do |format|
       format.html { @primary_node = Node.first.to_json }
       format.json {
-        render :json => Node.find(list.split(",")).map{|n|n.to_json({:shallow => true})}
+        nodes = Node.find(list.split(",")).map{|n|n.to_json({:shallow => true})}
+        if !nodes.is_a?(Array)
+          nodes = [nodes]
+        end
+        render :json => nodes
       }
     end
   end
