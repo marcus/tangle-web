@@ -1,11 +1,18 @@
 # Resource /Model (?)
-Tangle.tangle = angular.module("tangle", ["ngResource"]).
+angular.module("tangle.service", ["ngResource"]).
   factory("Node",
           (($resource) -> $resource "/nodes/:node_id/:action.json"),
           { node_id: "@id" },
           { update:{ method: "PUT"}}
 ).factory('NodeCache', ($cacheFactory) ->
   $cacheFactory('nodeCache', { capacity: 1000 }) # LRU cache
+)
+
+angular.module('tangle.directive', [])
+angular.module('tangle.filter', [])
+
+angular.module('tangle', ['tangle.service', 'tangle.directive', 'tangle.filter']).
+  run((Node) ->
 )
 
 Tangle.NodesController = ($scope, Node, NodeCache) ->
