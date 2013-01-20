@@ -1,24 +1,18 @@
-#Tangle.NodesCtrl = ($scope, $http) ->
-  #$http.get("/nodes.json", {cache: true}).success((data) ->
-    #$scope.nodes = data
-    #console.log data
-  #).error((data, status) ->
-    #console.log "Error in NodesCtrl fetch", data, status
-  #)
-
 # Resource /Model (?)
 Tangle.tangle = angular.module("tangle", ["ngResource"]).
   factory("Node",
           (($resource) -> $resource "/nodes/:node_id/:action.json"),
           { node_id: "@id" },
           { update:{ method: "PUT"}}
+).factory('NodeCache', ($cacheFactory) ->
+  $cacheFactory('nodeCache', { capacity: 1000 }) # LRU cache
 )
 
-# Controller
-Tangle.NodesController = ($scope, Node) ->
-  cache = {}
+Tangle.NodesController = ($scope, Node, NodeCache) ->
   cacheQueue = []
-  # Check resetGroups for the children/parents/companions
+  groups = ['childNodes', 'companionNodes', 'parentNodes']
+
+  $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
   # Fetchers
   $scope.fetchOne= (nodeId) ->
@@ -26,38 +20,36 @@ Tangle.NodesController = ($scope, Node) ->
       ((resource) -> $scope.showPrimary(resource)),
       ((response) -> $scope.error response)
 
-  $scope.fetchIndex = (nodeIds) ->
+  $scope.fetchList= (nodeIds) ->
     Node.query ids: nodeIds,
       ((response) -> $scope.indexFetched(response)),
       ((response) -> $scope.error response)
 
   $scope.indexFetched = (nodes) ->
-    _.each nodes, (n) -> cache[n.uuid] = n
+    _.each nodes, (n) -> NodeCache.put(n.uuid, n)
     $scope.updateGroupsFromCache()
 
   # Display Nodes
   $scope.focusNode = (nodeGuid) ->
-    if cache[nodeGuid]
-      $scope.showPrimary(cache[nodeGuid])
+    if NodeCache.get nodeGuid
+      $scope.showPrimary(NodeCache.get nodeGuid)
     else
       $scope.fetchOne(nodeGuid)
 
   $scope.showPrimary= (node) ->
     $scope.resetGroups()
-    cache[node.uuid] ||= node
+    NodeCache.put(node.uuid, node) if !NodeCache.get node.uuid
     $scope.primaryNode = node
     $scope.showRelationships(node)
-    console.log(node)
 
   $scope.showRelationships = (node) ->
-    # TODO - sort relationships alpha
     # Display the nodes we have and queue the rest
     $scope.childNodes = $scope.tryNodes(node.child_uuids)
     $scope.compaionNodes = $scope.tryNodes(node.companion_uuids)
     $scope.parentNodes = $scope.tryNodes(node.parent_uuids)
     # Now that child, parent, companion nodes are queued, fetch it
-    $scope.fetchIndex(cacheQueue) if cacheQueue.length > 0
-    cacheQueue = [] # Clear the queue now that everything is cached and magically displayed!
+    $scope.fetchList(cacheQueue) if cacheQueue.length > 0
+    cacheQueue = []
 
   $scope.tryNodes = (nodeUuids) ->
     result = {}
@@ -65,24 +57,19 @@ Tangle.NodesController = ($scope, Node) ->
     result
 
   tryNodeCache = (u) ->
-    unless cache[u]
+    unless NodeCache.get u
       cacheQueue.push u
-      cache[u] = {title: "Loading...", uuid: u}
-    cache[u]
+      NodeCache.put(u, {title: "Loading...", uuid: u})
+    NodeCache.get u
 
   $scope.updateGroupsFromCache = ->
-    _.each ['childNodes', 'companionNodes', 'parentNodes'], (p) ->
+    _.each groups, (p) ->
       _.each $scope[p], (n) ->
-        $scope[p][n.uuid] = cache[n.uuid]
-    console.log "updating groups", $scope.childNodes
-
-  $scope.resetGroups = ->
-    _.each ['childNodes', 'companionNodes', 'parentNodes'], (p) ->
-      $scope[p] = {}
+        $scope[p][n.uuid] = NodeCache.get n.uuid
 
   $scope.error = (response) ->
     console.log "Error", response
-    $scope.errorText = "Something went wrong #{response}"
+    $scope.errorText = "Something went wrong #{response.status}"
 
   # INITALIZE ####
   $scope.showPrimary(window.primaryNode)

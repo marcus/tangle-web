@@ -1,6 +1,7 @@
 class NodesController < ApplicationController
   def index
     list = params[:ids] || [Node.first.id]
+    # TODO - sort alphabetically
     respond_to do |format|
       format.html { @primary_node = Node.first.to_json }
       format.json {
