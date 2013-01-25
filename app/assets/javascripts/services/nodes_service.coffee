@@ -17,7 +17,7 @@ angular.module('tangle', ['tangle.service', 'tangle.directive', 'tangle.filter']
 
 Tangle.NodesController = ($scope, Node, NodeCache) ->
   cacheQueue = []
-  groups = ['childNodes', 'companionNodes', 'parentNodes']
+  groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
@@ -33,6 +33,7 @@ Tangle.NodesController = ($scope, Node, NodeCache) ->
       ((response) -> $scope.error response)
 
   $scope.indexFetched = (nodes) ->
+    console.log nodes
     _.each nodes, (n) -> NodeCache.put(n.uuid, n)
     $scope.updateGroupsFromCache()
 
@@ -52,8 +53,9 @@ Tangle.NodesController = ($scope, Node, NodeCache) ->
   $scope.showRelationships = (node) ->
     # Display the nodes we have and queue the rest
     $scope.childNodes = $scope.tryNodes(node.child_uuids)
-    $scope.compaionNodes = $scope.tryNodes(node.companion_uuids)
+    $scope.companionNodes = $scope.tryNodes(node.companion_uuids)
     $scope.parentNodes = $scope.tryNodes(node.parent_uuids)
+    $scope.siblingNodes = $scope.tryNodes(node.sibling_uuids)
     # Now that child, parent, companion nodes are queued, fetch it
     $scope.fetchList(cacheQueue) if cacheQueue.length > 0
     cacheQueue = []

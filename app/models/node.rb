@@ -100,7 +100,8 @@ class Node < ActiveRecord::Base
     {
       :parents => Node.find_all_by_uuid(ru[:parents]).map{ |n|n.to_json(:shallow => true) },
       :children => Node.find_all_by_uuid(ru[:children]).map{ |n|n.to_json(:shallow => true) },
-      :companions => Node.find_all_by_uuid(ru[:companions]).map{ |n|n.to_json(:shallow => true) }
+      :companions => Node.find_all_by_uuid(ru[:companions]).map{ |n|n.to_json(:shallow => true) }#,
+      #:siblings => Node.find_all_by_uuid(ru[:siblings]).map{ |n|n.to_json(:shallow => true) }
     }
   end
 
@@ -109,7 +110,8 @@ class Node < ActiveRecord::Base
     {
       :child_uuids => rl[:children].map{ |cl| cl.direction == 1 ? cl.node_b_uuid : cl.node_a_uuid },
       :parent_uuids => rl[:parents].map{ |pl| pl.direction == 1 ? pl.node_a_uuid : pl.node_b_uuid },
-      :companion_uuids => rl[:companions].map{|cl| cl.node_a_uuid == uuid ? cl.node_b_uuid : cl.node_a_uuid }
+      :companion_uuids => rl[:companions].map{|cl| cl.node_a_uuid == uuid ? cl.node_b_uuid : cl.node_a_uuid }#,
+      #:sibling_uuids =>
     }
   end
 
