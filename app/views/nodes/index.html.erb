@@ -9,7 +9,6 @@
     <div class="row">
 
       <div class="span12" id="parent_container">
-        <h4>Parents</h4>
         <div id="parent_nodes">
           <div ng-repeat="node in parentNodes">
             <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>
@@ -20,19 +19,14 @@
     </div>
 
     <div class="row">
-      <div class="span3">_</div>
+      <div class="span3"></div>
       <div class="span6" id="primary_container">
-        <h2><div id="primary_node" style="font-weight: bold;">{{primaryNode.title}}</div></h2>
-      </div>
-      <div class="span3">_</div>
-
-      <div class="span9" id="notes_container">
-        <h4>Notes</h4>
+        <div id="primary_node">{{primaryNode.title}}</div>
         <div id="notes" ng-bind-html-unsafe="primaryNode.description"></div>
       </div>
+      <div class="span3"></div>
 
       <div class="span3"id="companions_container">
-        <h4>Companions</h4>
         <div id="companion_nodes">
           <div ng-repeat="node in companionNodes">
             <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>
@@ -44,7 +38,6 @@
 
     <div class="row">
       <div class="span12" id="children_container">
-        <h4>Children</h4>
         <div id="children_nodes">
           <div ng-repeat="node in childNodes">
             <a class="node" ng-click="focusNode(node.uuid)">{{node.title}}</a>

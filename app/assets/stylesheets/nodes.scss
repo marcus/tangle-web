@@ -7,10 +7,24 @@
 
 body {
   background-color: #999;
+  font-size: 12px;
 }
 
 #primary_container {
+  background-color: #fff;
+  width: 400px;
+  height: 240px;
+
   #primary_node {
+    font-weight: bold;
+    padding: 10px 10px 0 10px;;
+  }
+
+  #notes {
+    position: relative;
+    height: 200px;
+    padding: 10px;
+    overflow: auto;
   }
 }
 
@@ -31,11 +45,11 @@ body {
 }
 
 .node {
+  background-color: #fff;
   float: left;
   padding: 5px;
-  border: 1px #ffcc11 solid;
-  border-radius: 4px 4px 4px;
-  margin: 5px;
+  border: 1px #999 solid;
+  margin: 1px 1px 1px 0px;
   cursor: pointer;
   .uuid {
     display:none;
