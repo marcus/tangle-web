@@ -8,16 +8,10 @@
 //= require underscore
 //= require angular
 //= require angular-resource
-//= require jquery.masonry.min
 //
 //= require lib/tangle_namespace
 //= require lib/namespace
 //
-//= require modules/tangle
-//= require models/node
 //= require services/nodes_service.coffee
 //
-// require collections/nodes_collection
-// require apps/nodes
-// require views/node_view
-// require templates/node
+//= require templates/node
