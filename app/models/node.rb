@@ -1,6 +1,6 @@
 class Node < ActiveRecord::Base
   # TODO - sanitize title and description
-  include Extensions::UUID
+  include Shared::UUID
   # 1 = NodeA is parent of NodeB
   # 2 = NodeA is child of NodeB
   # 3 = NodeA and NodeB are companions
@@ -18,7 +18,7 @@ class Node < ActiveRecord::Base
   # nodeA where nodeB = uuid AND direction = 3
   #
   # Siblings
-  # chilren of parents
+  # children of parents
 
   def children_links
     Link.where ['(node_a_uuid = ? AND direction = ?) OR (node_b_uuid = ? AND direction = ?)', uuid, 1, uuid, 2]
@@ -31,7 +31,7 @@ class Node < ActiveRecord::Base
   end
 
   def children
-    Node.find_all_by_uuid child_uuids
+    Node.where uuid: child_uuids
   end
 
   def parent_links
@@ -45,7 +45,7 @@ class Node < ActiveRecord::Base
   end
 
   def parents
-    Node.find_all_by_uuid parent_uuids
+    Node.where uuid: parent_uuids
   end
 
   def companion_links
@@ -59,7 +59,7 @@ class Node < ActiveRecord::Base
   end
 
   def companions
-    Node.find_all_by_uuid companion_uuids
+    Node.where uuid: companion_uuids
   end
 
   def sibling_uuids
@@ -70,7 +70,7 @@ class Node < ActiveRecord::Base
 
   def siblings
     sibs = {}
-    sibling_uuids.each{ |s,v| sibs[s] = Node.find_all_by_uuid(v) }
+    sibling_uuids.each{ |s,v| sibs[s] = Node.where(uuid: v) }
     sibs
   end
 
@@ -98,10 +98,10 @@ class Node < ActiveRecord::Base
   def relationships
     ru = relationship_uuids
     {
-      :parents => Node.find_all_by_uuid(ru[:parents]).map{ |n|n.to_json(:shallow => true) },
-      :children => Node.find_all_by_uuid(ru[:children]).map{ |n|n.to_json(:shallow => true) },
-      :companions => Node.find_all_by_uuid(ru[:companions]).map{ |n|n.to_json(:shallow => true) }#,
-      #:siblings => Node.find_all_by_uuid(ru[:siblings]).map{ |n|n.to_json(:shallow => true) }
+      :parents => Node.where(uuid: ru[:parents]).map{ |n|n.to_json(:shallow => true) },
+      :children => Node.where(uuid: ru[:children]).map{ |n|n.to_json(:shallow => true) },
+      :companions => Node.where(uuid: ru[:companions]).map{ |n|n.to_json(:shallow => true) }#,
+      #:siblings => Node.where_uuid(ru[:siblings]).map{ |n|n.to_json(:shallow => true) }
     }
   end
 

@@ -3,7 +3,7 @@ class Import::PersonalBrainImport
 
   def get_doc#(path = 'import/marcus_brain.xml')
     #path = 'import/TestBrain.xml'
-    path = 'import/marcus_brain.xml'
+    path = 'import/marcus_brain2.xml'
     f = File.open(path)
     @doc = Nokogiri::XML(f)
     f.close
@@ -29,7 +29,7 @@ class Import::PersonalBrainImport
   end
 
   def create_nodes
-    puts "Importing #{@thoughts.count} thoughts"
+    puts "Importing #{@thoughts.count} thoughts as notes"
     @thoughts.each_with_index { |t,i| create_node(t); dot(i) }
   end
 

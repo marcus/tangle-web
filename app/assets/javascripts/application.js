@@ -11,7 +11,7 @@
 //
 //= require lib/tangle_namespace
 //= require lib/namespace
-//
-//= require services/nodes_service.coffee
+//= require app/app
+//= require app/nodesView/nodesController
 //
 //= require templates/node

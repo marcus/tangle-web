@@ -1,5 +1,5 @@
 class Link < ActiveRecord::Base
-  include Extensions::UUID
+  include Shared::UUID
 
   # belongs_to :node, :class_name => "Node", :foreign_key => :relationship_uuid
 

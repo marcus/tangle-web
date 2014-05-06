@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2.10'
+gem 'rails', '~> 4.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -8,8 +8,6 @@ gem 'rails', '~> 3.2.10'
 #### DATABASE
 # gem 'sqlite3'
 gem 'pg'
-# gem 'activerecord-postgres-array'
-gem 'ar_pg_array'
 gem 'uuidtools'
 
 gem 'json'
@@ -21,6 +19,12 @@ gem 'nokogiri'
 gem 'htmlentities'
 
 gem 'html_massage'
+
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+gem 'spring',        group: :development
+
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -39,9 +43,10 @@ gem 'jquery-rails'
 # Use unicorn as the web server
 gem 'unicorn'
 
-group :development do
-  gem 'pry-rails'
+group :test, :development, :profile do
+  gem 'jazz_hands'
 end
+gem 'hirb'
 
 # Deploy with Capistrano
 # gem 'capistrano'

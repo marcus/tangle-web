@@ -1,23 +1,7 @@
-# Resource /Model (?)
-angular.module("tangle.service", ["ngResource"]).
-  factory("Node",
-          (($resource) -> $resource "/nodes/:node_id/:action.json"),
-          { node_id: "@id" },
-          { update:{ method: "PUT"}}
-).factory('NodeCache', ($cacheFactory) ->
-  $cacheFactory('nodeCache', { capacity: 1000 }) # LRU cache
-)
-
-angular.module('tangle.directive', [])
-angular.module('tangle.filter', [])
-
-angular.module('tangle', ['tangle.service', 'tangle.directive', 'tangle.filter']).
-  run((Node) ->
-)
-
 Tangle.NodesController = ($scope, Node, NodeCache) ->
   cacheQueue = []
   groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
+  console.log "heya"
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
@@ -81,4 +65,4 @@ Tangle.NodesController = ($scope, Node, NodeCache) ->
     $scope.errorText = "Something went wrong #{response.status}"
 
   # INITALIZE ####
-  $scope.showPrimary(window.primaryNode)
+  #$scope.showPrimary(window.primaryNode)
