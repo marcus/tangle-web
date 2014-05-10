@@ -1,38 +1,35 @@
-Tangle.NodesController = ($scope, Node, NodeCache) ->
+@tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', 'nodeResource', 'nodeCache', 'NodeModel',
+($scope, $routeParams, $location, nodeResource, nodeCache, NodeModel) ->
   cacheQueue = []
   groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
-  console.log "heya"
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
+  $scope.showPrimary = (node) ->
+    $scope.resetGroups()
+    nodeCache.put(node.uuid, node) if !nodeCache.get node.uuid
+    $scope.primaryNode = node
+    $scope.showRelationships(node)
+
+  $scope.updatePrimary = (nodeId) ->
+    $location.url "/nodes/#{nodeId}"
+    $scope.fetchOne(nodeId)
+
   # Fetchers
-  $scope.fetchOne= (nodeId) ->
-    Node.get node_id: nodeId,
+  $scope.fetchOne = (nodeId) ->
+    NodeModel.get node_id: nodeId,
       ((resource) -> $scope.showPrimary(resource)),
       ((response) -> $scope.error response)
 
-  $scope.fetchList= (nodeIds) ->
-    Node.query ids: nodeIds,
+  $scope.fetchList = (nodeIds) ->
+    NodeModel.query ids: nodeIds.join(","),
       ((response) -> $scope.indexFetched(response)),
       ((response) -> $scope.error response)
 
   $scope.indexFetched = (nodes) ->
-    console.log nodes
-    _.each nodes, (n) -> NodeCache.put(n.uuid, n)
+    console.log "Response", nodes
+    _.each nodes, (n) -> nodeCache.put(n.uuid, n)
     $scope.updateGroupsFromCache()
-
-  # Display Nodes
-  $scope.focusNode = (nodeGuid) ->
-    if NodeCache.get nodeGuid
-      $scope.showPrimary(NodeCache.get nodeGuid)
-    else
-      $scope.fetchOne(nodeGuid)
-
-  $scope.showPrimary= (node) ->
-    $scope.resetGroups()
-    NodeCache.put(node.uuid, node) if !NodeCache.get node.uuid
-    $scope.primaryNode = node
-    $scope.showRelationships(node)
 
   $scope.showRelationships = (node) ->
     # Display the nodes we have and queue the rest
@@ -50,19 +47,22 @@ Tangle.NodesController = ($scope, Node, NodeCache) ->
     result
 
   tryNodeCache = (u) ->
-    unless NodeCache.get u
+    unless nodeCache.get u
       cacheQueue.push u
-      NodeCache.put(u, {title: "Loading...", uuid: u})
-    NodeCache.get u
+      nodeCache.put(u, {title: "Loading...", uuid: u})
+    nodeCache.get u
 
   $scope.updateGroupsFromCache = ->
     _.each groups, (p) ->
       _.each $scope[p], (n) ->
-        $scope[p][n.uuid] = NodeCache.get n.uuid
+        $scope[p][n.uuid] = nodeCache.get n.uuid
 
   $scope.error = (response) ->
     console.log "Error", response
     $scope.errorText = "Something went wrong #{response.status}"
 
-  # INITALIZE ####
-  #$scope.showPrimary(window.primaryNode)
+  if $routeParams.id
+    $scope.fetchOne($routeParams.id)
+  else
+    $scope.showPrimary(window.primaryNode)
+]

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="tangle">
 <head>
   <title>Tangle</title>
   <%= stylesheet_link_tag    "application" %>
@@ -8,7 +8,9 @@
 </head>
 <body>
 
-<%= yield %>
+  <div ng-view>
+    <%= yield %>
+  </div>
 
 </body>
 </html>

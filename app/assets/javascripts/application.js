@@ -4,14 +4,13 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery-1.8.3
-//= require underscore
+//= #require jquery-2.1.1.min
+//= require underscore-min
 //= require angular
-//= require angular-resource
+//= require angular-resource.min
+//= require angular-route.min
 //
+//= require main
 //= require lib/tangle_namespace
 //= require lib/namespace
-//= require app/app
-//= require app/nodesView/nodesController
-//
-//= require templates/node
+//= require app/controllers/nodesCtrl
