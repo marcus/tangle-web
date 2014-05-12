@@ -1,6 +1,6 @@
 @tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', 'nodeResource', 'nodeCache', 'NodeModel',
 ($scope, $routeParams, $location, nodeResource, nodeCache, NodeModel) ->
-  cacheQueue = []
+  cacheQueue = [] # Nodes that need to be fetched
   groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
@@ -27,7 +27,6 @@
       ((response) -> $scope.error response)
 
   $scope.indexFetched = (nodes) ->
-    console.log "Response", nodes
     _.each nodes, (n) -> nodeCache.put(n.uuid, n)
     $scope.updateGroupsFromCache()
 
@@ -46,19 +45,17 @@
     _.each nodeUuids, (u) -> result[u] = tryNodeCache(u)
     result
 
+  # Fetch the node from the cache, otherwise show a loading message
   tryNodeCache = (u) ->
-    unless nodeCache.get u
-      cacheQueue.push u
-      nodeCache.put(u, {title: "Loading...", uuid: u})
-    nodeCache.get u
+    cacheQueue.push u unless nodeCache.get u
+    nodeCache.get(u) || {title: "Loading...", uuid: u}
 
   $scope.updateGroupsFromCache = ->
-    _.each groups, (p) ->
-      _.each $scope[p], (n) ->
-        $scope[p][n.uuid] = nodeCache.get n.uuid
+    _.each groups, (group) ->
+      _.each $scope[group], (n) ->
+        $scope[group][n.uuid] = nodeCache.get n.uuid
 
   $scope.error = (response) ->
-    console.log "Error", response
     $scope.errorText = "Something went wrong #{response.status}"
 
   if $routeParams.id
