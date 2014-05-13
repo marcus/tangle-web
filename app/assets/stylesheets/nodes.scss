@@ -1,90 +1,83 @@
 /* apply a natural box layout model to all elements */
-* {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
+/** {*/
+  /*box-sizing: border-box;*/
+/*}*/
 
 body {
-  background-color: #999;
-  font-size: 12px;
+  background-color: #ddd;
+  /*font-size: 12px;*/
+  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto Slab', serif;*/
 }
 
-#left_column {
-  float: left;
-  width: 30%;
-  border: 1px solid #fff;
-  height: 520px;
-  display: table;
-  .content {
-    display: table-cell;
-    vertical-align: middle;
-  }
-}
-#center_column {
-  float: left;
-  width: 40%;
-  border: 1px solid #000;
-}
-#right_column {
-  float: left;
-  width: 30%;
-  height: 520px;
-  border: 1px solid #0bc;
-  display: table;
-  .content {
-    display: table-cell;
-    vertical-align: middle;
-  }
-}
+.search_row {
+  background-color: white;
+  margin-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 
-#parent_nodes {
-  height: 140px;
-  overflow: auto;
-  display: table;
-  .content {
-    display: table-cell;
-    vertical-align: bottom;
+  input {
+    width: 100%;
+    border: none;
+    outline: none;
+  }
+}
+.search_results {
+  width: 300px;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  padding-left: 5px;
+  padding-right: 5px;
+  box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.63);
+
+  .search_result {
+    display: block;
+    clear: both;
   }
 }
 
-#primary_container {
-  background-color: #fff;
-  width: 400px;
-  height: 240px;
-
-  #primary_node {
-    font-weight: bold;
-    padding: 10px 10px 0 10px;;
-  }
-
-  #notes {
-    position: relative;
-    height: 200px;
-    padding: 10px;
-    overflow: auto;
-  }
+.primary_node_col {
+  background-color: white;
+  border-right: 1px #999 solid;
+  border-bottom: 1px #999 solid;
 }
 
-#children_nodes {
-  height: 140px;
+#primary_node {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 10px 0 0px;;
+}
+
+.children {
+  padding-left: 10px;
+}
+
+#notes {
+  position: relative;
+  height: 200px;
+  padding: 10px;
   overflow: auto;
 }
 
-#siblings_nodes {
-}
+#nodes_app {
+  a.node {
+    color: #555;
+  }
 
-
-.node {
-  background-color: #fff;
-  float: left;
-  padding: 5px;
-  border: 1px #999 solid;
-  margin: 1px 1px 1px 0px;
-  cursor: pointer;
-  .uuid {
-    display:none;
-    cursor: default;
-    font-size: 8px;
+  .node {
+    /*background-color: #fff;*/
+    float: left;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 1px 1px 1px 0px;
+    cursor: pointer;
+    .uuid {
+      display:none;
+      cursor: default;
+      font-size: 8px;
+    }
   }
 }
+

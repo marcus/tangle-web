@@ -1,56 +1,68 @@
-<div id="nodes_app">
-  <div xxng-controller="Tangle.NodesController">
-    <ul>
-      <li ng-repeat="node in nodes">
-        {{node.title}}
-      </li>
-    </ul>
-
-    <div id="left_column">
-      <div class="content">
-        <div id="companion_nodes">
-          <div ng-repeat="node in companionNodes">
-            <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
-          </div>
+<div class="container-fluid" id="nodes_app">
+  <div class="row">
+    <div class="col-md-12 search_row">
+      <input type="search" placeholder="Search" ng-model="searchText">
+      <div class="search_results">
+        <div class="search_result" ng-repeat="node in searchResults">
+          <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
         </div>
       </div>
     </div>
+  </div>
 
+  <div class="row">
+    <div class="col-md-2 companions">
+      <div ng-repeat="node in companionNodes">
+        <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+      </div>
+    </div>
 
-    <div id="center_column">
-      <div id="parent_nodes">
-        <div class="content">
-          <div ng-repeat="node in parentNodes">
-            <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+    <div class="col-md-8 main_view">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-md-12 parents">
+            <div ng-repeat="node in parentNodes">
+              <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+            </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12 primary_node_col">
+            <div id="primary_node">{{primaryNode.title}}</div>
+            <div id="notes" ng-bind-html="primaryNode.description | unsafe"></div>
+          </div>
+        </div>
+
       </div>
 
-      <div id="primary_container">
-        <div id="primary_node">{{primaryNode.title}}</div>
-        <div id="notes" ng-bind-html="primaryNode.description | unsafe"></div>
-      </div>
+    </div>
 
-      <div id="children_nodes">
+    <div class="col-md-2 siblings">
+      <div ng-repeat="node in siblingNodes">
+        <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row children_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="children">
         <div ng-repeat="node in childNodes">
           <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
         </div>
       </div>
-
     </div>
+    <div class="col-md-2"></div>
+  </div>
 
-    <div id="right_column">
-      <div class="content">
-        <div id="sibling_nodes">
-          <div ng-repeat="node in siblingNodes">
-            <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
-          </div>
-        </div>
-      </div>
+
+  <div class="row error_row">
+    <div class="col-md-12">
+      <div class="error">{{errorText}}</div>
     </div>
-
-
-
-  <div class="error">{{errorText}}</div>
   </div>
 </div>

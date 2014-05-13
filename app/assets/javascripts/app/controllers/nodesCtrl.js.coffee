@@ -1,5 +1,5 @@
-@tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', 'nodeResource', 'nodeCache', 'NodeModel',
-($scope, $routeParams, $location, nodeResource, nodeCache, NodeModel) ->
+@tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', '$timeout', 'nodeResource', 'nodeCache', 'NodeModel',
+($scope, $routeParams, $location, $timeout, nodeResource, nodeCache, NodeModel) ->
   cacheQueue = [] # Nodes that need to be fetched
   groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
 
@@ -9,7 +9,7 @@
     $scope.resetGroups()
     nodeCache.put(node.uuid, node) if !nodeCache.get node.uuid
     $scope.primaryNode = node
-    $scope.showRelationships(node)
+    showRelationships(node)
 
   $scope.updatePrimary = (nodeId) ->
     $location.url "/nodes/#{nodeId}"
@@ -19,28 +19,50 @@
   $scope.fetchOne = (nodeId) ->
     NodeModel.get node_id: nodeId,
       ((resource) -> $scope.showPrimary(resource)),
-      ((response) -> $scope.error response)
+      ((response) -> error response)
 
-  $scope.fetchList = (nodeIds) ->
+  fetchList = (nodeIds) ->
     NodeModel.query ids: nodeIds.join(","),
-      ((response) -> $scope.indexFetched(response)),
-      ((response) -> $scope.error response)
+      ((response) -> indexFetched(response)),
+      ((response) -> error response)
 
-  $scope.indexFetched = (nodes) ->
+  $scope.filterText = ''
+
+  $scope.$watch('searchText', (val) ->
+    return unless val
+    $timeout.cancel(filterTextTimeout) if (filterTextTimeout)
+
+    tempFilterText = val
+    filterTextTimeout = $timeout((->
+        $scope.filterText = tempFilterText
+        searchList($scope.filterText)
+      ), 250)
+  )
+
+  searchList = (query) =>
+    NodeModel.query q: query,
+      ((response) -> showSearchResults(response)),
+      ((response) -> error response)
+
+  indexFetched = (nodes) ->
     _.each nodes, (n) -> nodeCache.put(n.uuid, n)
-    $scope.updateGroupsFromCache()
+    updateGroupsFromCache()
 
-  $scope.showRelationships = (node) ->
+  showSearchResults = (response) ->
+    $scope.searchResults = null
+    $scope.searchResults = _.map response, (node) -> {title: node.title, uuid: node.uuid}
+
+  showRelationships = (node) ->
     # Display the nodes we have and queue the rest
-    $scope.childNodes = $scope.tryNodes(node.child_uuids)
-    $scope.companionNodes = $scope.tryNodes(node.companion_uuids)
-    $scope.parentNodes = $scope.tryNodes(node.parent_uuids)
-    $scope.siblingNodes = $scope.tryNodes(node.sibling_uuids)
+    $scope.childNodes = tryNodes(node.child_uuids)
+    $scope.companionNodes = tryNodes(node.companion_uuids)
+    $scope.parentNodes = tryNodes(node.parent_uuids)
+    $scope.siblingNodes = tryNodes(node.sibling_uuids)
     # Now that child, parent, companion nodes are queued, fetch it
-    $scope.fetchList(cacheQueue) if cacheQueue.length > 0
+    fetchList(cacheQueue) if cacheQueue.length > 0
     cacheQueue = []
 
-  $scope.tryNodes = (nodeUuids) ->
+  tryNodes = (nodeUuids) ->
     result = {}
     _.each nodeUuids, (u) -> result[u] = tryNodeCache(u)
     result
@@ -50,12 +72,12 @@
     cacheQueue.push u unless nodeCache.get u
     nodeCache.get(u) || {title: "Loading...", uuid: u}
 
-  $scope.updateGroupsFromCache = ->
+  updateGroupsFromCache = ->
     _.each groups, (group) ->
       _.each $scope[group], (n) ->
         $scope[group][n.uuid] = nodeCache.get n.uuid
 
-  $scope.error = (response) ->
+  error = (response) ->
     $scope.errorText = "Something went wrong #{response.status}"
 
   if $routeParams.id

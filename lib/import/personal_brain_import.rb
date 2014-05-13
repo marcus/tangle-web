@@ -52,7 +52,7 @@ class Import::PersonalBrainImport
 
   def create_node(thought)
     # Get the PB node content and guid
-    content = thought.xpath('name')[0].content
+    content = strip_crap thought.xpath('name')[0].content
     guid = thought.xpath('guid')[0].content
 
     # Save a tangle node
@@ -74,7 +74,7 @@ class Import::PersonalBrainImport
     content = d.xpath('body')[0].try(:content)
     if !content.blank?
       @decoder ||= HTMLEntities.new
-      content = HtmlMassage.html(@decoder.decode(content))
+      content = strip_crap HtmlMassage.html(@decoder.decode(content))
 
       node = Node.find(@node_map[node_guid])
       if node
@@ -103,6 +103,17 @@ class Import::PersonalBrainImport
 
   def get_tangle_uuid(guid)
     @node_map[guid]
+  end
+
+  # Temporary method to strip the &amp; stuff, need to figure our the right way
+  def strip_crap(str)
+    if str
+      str.gsub('&apos;', "'").
+        gsub('&amp;', '&').
+        gsub('&quot;', '"').
+    else
+      nil
+    end
   end
 
 end
