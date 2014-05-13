@@ -1,7 +1,7 @@
 @tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', '$timeout', 'nodeResource', 'nodeCache', 'NodeModel',
 ($scope, $routeParams, $location, $timeout, nodeResource, nodeCache, NodeModel) ->
   cacheQueue = [] # Nodes that need to be fetched
-  groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
+  groups = ['childNodes', 'companionNodes', 'parentNodes']
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
@@ -13,7 +13,6 @@
 
   $scope.updatePrimary = (nodeId) ->
     $location.url "/nodes/#{nodeId}"
-    $scope.fetchOne(nodeId)
 
   # Fetchers
   $scope.fetchOne = (nodeId) ->
@@ -57,7 +56,6 @@
     $scope.childNodes = tryNodes(node.child_uuids)
     $scope.companionNodes = tryNodes(node.companion_uuids)
     $scope.parentNodes = tryNodes(node.parent_uuids)
-    $scope.siblingNodes = tryNodes(node.sibling_uuids)
     # Now that child, parent, companion nodes are queued, fetch it
     fetchList(cacheQueue) if cacheQueue.length > 0
     cacheQueue = []

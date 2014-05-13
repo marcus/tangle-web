@@ -9,10 +9,8 @@ class NodesController < ApplicationController
         else
           list = params[:ids] || [Node.first.id]
           nodes = Node.find(list.split(",")).map{|n|n.to_json({:shallow => true})}
-          if !nodes.is_a?(Array)
-            nodes = [nodes]
-          end
         end
+
         render :json => nodes
       }
     end

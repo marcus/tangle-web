@@ -96,11 +96,14 @@ class Node < ActiveRecord::Base
   end
 
   def relationships
+    # Probably faster to gather everything into one query, then sort afterwards
+    # - write methods that are "relationships for nodes" which will take a big list and sort
+    # them into relationship buckets
     ru = relationship_uuids
     {
-      :parents => Node.where(uuid: ru[:parents]).map{ |n|n.to_json(:shallow => true) },
-      :children => Node.where(uuid: ru[:children]).map{ |n|n.to_json(:shallow => true) },
-      :companions => Node.where(uuid: ru[:companions]).map{ |n|n.to_json(:shallow => true) }#,
+      :parents => Node.where(uuid: ru[:parent_uuids]).map{ |n|n.to_json(:shallow => true) },
+      :children => Node.where(uuid: ru[:child_uuids]).map{ |n|n.to_json(:shallow => true) },
+      :companions => Node.where(uuid: ru[:companion_uuids]).map{ |n|n.to_json(:shallow => true) }#,
       #:siblings => Node.where_uuid(ru[:siblings]).map{ |n|n.to_json(:shallow => true) }
     }
   end
