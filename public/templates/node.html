@@ -36,28 +36,27 @@
           </div>
         </div>
 
+        <div class="row children_row">
+          <div class="col-md-12">
+            <div class="children">
+              <div ng-repeat="node in childNodes">
+                <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
 
     <div class="col-md-2 siblings">
-      <div ng-repeat="node in parentNodes">
+      <div ng-repeat="node in siblingNodes">
         <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
       </div>
     </div>
   </div>
 
-  <div class="row children_row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <div class="children">
-        <div ng-repeat="node in childNodes">
-          <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2"></div>
-  </div>
 
 
   <div class="row error_row">

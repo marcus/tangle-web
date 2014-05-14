@@ -55,7 +55,11 @@
     # Display the nodes we have and queue the rest
     $scope.childNodes = tryNodes(node.child_uuids)
     $scope.companionNodes = tryNodes(node.companion_uuids)
-    $scope.parentNodes = tryNodes(node.parent_uuids)
+    $scope.parentNodes = node.parents # These come down with the primaryNode
+    siblingUuids = []
+    _.each(node.parents, (p) => siblingUuids = siblingUuids.concat(p.child_uuids))
+    console.log "Siblings", siblingUuids
+    $scope.siblingNodes = tryNodes(siblingUuids)
     # Now that child, parent, companion nodes are queued, fetch it
     fetchList(cacheQueue) if cacheQueue.length > 0
     cacheQueue = []

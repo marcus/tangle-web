@@ -55,6 +55,10 @@ body {
 .parents {
   min-height: 40px;
 }
+.siblings {
+  overflow: auto;
+  max-height: 500px;
+}
 
 #notes {
   position: relative;
