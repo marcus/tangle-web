@@ -1,7 +1,7 @@
 @tangle.controller 'NodesCtrl', ['$scope', '$routeParams', '$location', '$timeout', 'nodeResource', 'nodeCache', 'NodeModel',
 ($scope, $routeParams, $location, $timeout, nodeResource, nodeCache, NodeModel) ->
   cacheQueue = [] # Nodes that need to be fetched
-  groups = ['childNodes', 'companionNodes', 'parentNodes']
+  groups = ['childNodes', 'companionNodes', 'parentNodes', 'siblingNodes']
 
   $scope.resetGroups = -> _.each groups, (p) -> $scope[p] = {}
 
@@ -21,7 +21,7 @@
       ((response) -> error response)
 
   fetchList = (nodeIds) ->
-    NodeModel.query ids: nodeIds.join(","),
+    NodeModel.query ids: _.uniq(nodeIds).join(","),
       ((response) -> indexFetched(response)),
       ((response) -> error response)
 
@@ -44,7 +44,8 @@
       ((response) -> error response)
 
   indexFetched = (nodes) ->
-    _.each nodes, (n) -> nodeCache.put(n.uuid, n)
+    _.each nodes, (n) ->
+      nodeCache.put(n.uuid, n)
     updateGroupsFromCache()
 
   showSearchResults = (response) ->
@@ -58,7 +59,6 @@
     $scope.parentNodes = node.parents # These come down with the primaryNode
     siblingUuids = []
     _.each(node.parents, (p) => siblingUuids = siblingUuids.concat(p.child_uuids))
-    console.log "Siblings", siblingUuids
     $scope.siblingNodes = tryNodes(siblingUuids)
     # Now that child, parent, companion nodes are queued, fetch it
     fetchList(cacheQueue) if cacheQueue.length > 0
@@ -66,13 +66,14 @@
 
   tryNodes = (nodeUuids) ->
     result = {}
-    _.each nodeUuids, (u) -> result[u] = tryNodeCache(u)
+    _.each nodeUuids, (uuid) -> result[uuid] = tryNodeCache(uuid)
     result
 
   # Fetch the node from the cache, otherwise show a loading message
-  tryNodeCache = (u) ->
-    cacheQueue.push u unless nodeCache.get u
-    nodeCache.get(u) || {title: "Loading...", uuid: u}
+  tryNodeCache = (uuid) ->
+    cacheQueue.push uuid unless nodeCache.get uuid
+    #nodeCache.put uuid, {title: "Loading...", uuid: uuid}
+    nodeCache.get(uuid) || {title: "Loading...", uuid: uuid}
 
   updateGroupsFromCache = ->
     _.each groups, (group) ->

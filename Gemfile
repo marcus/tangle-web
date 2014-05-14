@@ -11,6 +11,7 @@ gem 'pg'
 gem 'uuidtools'
 
 gem 'json'
+# http://stackoverflow.com/questions/13869904/field-stored-with-htmlentities-in-postgresql-how-do-i-search-sql-select-for-s
 gem 'active_model_serializers'
 gem 'seed-fu'
 
