@@ -5,7 +5,10 @@ class Import::PersonalBrainImport
     #path = 'import/TestBrain.xml'
     path = 'import/marcus_brain2.xml'
     f = File.open(path)
-    @doc = Nokogiri::XML(f)
+    @doc = Nokogiri::XML(f) do |config|
+      #config.options = Nokogiri::XML::ParseOptions.NOENT
+      config.strict.noent
+    end
     f.close
     #@doc
   end
@@ -52,7 +55,7 @@ class Import::PersonalBrainImport
 
   def create_node(thought)
     # Get the PB node content and guid
-    content = strip_crap thought.xpath('name')[0].content
+    content = thought.xpath('name')[0].content
     guid = thought.xpath('guid')[0].content
 
     # Save a tangle node
@@ -74,7 +77,7 @@ class Import::PersonalBrainImport
     content = d.xpath('body')[0].try(:content)
     if !content.blank?
       @decoder ||= HTMLEntities.new
-      content = strip_crap HtmlMassage.html(@decoder.decode(content))
+      content = HtmlMassage.html(@decoder.decode(content))
 
       node = Node.find(@node_map[node_guid])
       if node
@@ -103,17 +106,6 @@ class Import::PersonalBrainImport
 
   def get_tangle_uuid(guid)
     @node_map[guid]
-  end
-
-  # Temporary method to strip the &amp; stuff, need to figure our the right way
-  def strip_crap(str)
-    if str
-      str.gsub('&apos;', "'").
-        gsub('&amp;', '&').
-        gsub('&quot;', '"').
-    else
-      nil
-    end
   end
 
 end

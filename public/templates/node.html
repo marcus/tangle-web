@@ -4,7 +4,7 @@
       <input type="search" placeholder="Search" ng-model="searchText">
       <div class="search_results">
         <div class="search_result" ng-repeat="node in searchResults">
-          <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+          <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
         </div>
       </div>
     </div>
@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-2 companions">
       <div ng-repeat="node in companionNodes">
-        <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+        <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
       </div>
     </div>
 
@@ -24,14 +24,14 @@
         <div class="row">
           <div class="col-md-12 parents">
             <div ng-repeat="node in parentNodes">
-              <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+              <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
             </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-12 primary_node_col">
-            <div id="primary_node">{{primaryNode.title}}</div>
+            <div id="primary_node" ng-click="updatePrimary(primaryNode.uuid)" ng-bind-html="primaryNode.title | unsafe"></div>
             <div id="notes" ng-bind-html="primaryNode.description | unsafe"></div>
           </div>
         </div>
@@ -41,8 +41,8 @@
     </div>
 
     <div class="col-md-2 siblings">
-      <div ng-repeat="node in siblingNodes">
-        <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+      <div ng-repeat="node in parentNodes">
+        <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
     <div class="col-md-8">
       <div class="children">
         <div ng-repeat="node in childNodes">
-          <a class="node" ng-click="updatePrimary(node.uuid)">{{node.title}}</a>
+          <a class="node" ng-click="updatePrimary(node.uuid)" ng-bind-html="node.title | unsafe"></a>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ gem 'pg'
 gem 'uuidtools'
 
 gem 'json'
+gem 'active_model_serializers'
 gem 'seed-fu'
 
 gem 'rest-client'
