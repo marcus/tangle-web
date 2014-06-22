@@ -1,9 +1,12 @@
 namespace :import do
+  # Usage: rake import:pb['marcus_brain.xml'] - place file in import directory first
   desc "Import personal brain"
-  task :pb => :environment do
+  task :pb, [:filename] => [:environment] do |t, args|
+    args.with_defaults(:filename => 'TestBrain.xml')
     require(Rails.root.join('lib/import/personal_brain_import.rb'))
+
     i = Import::PersonalBrainImport.new
-    i.import
+    i.import(args[:filename])
     puts "\nCreated #{Link.all.count} links and #{Node.all.count} nodes."
   end
 

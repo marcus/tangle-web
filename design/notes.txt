@@ -1,0 +1,15 @@
+DESIGN PRINCIPLES
+Partial syncs should be no problem
+Syncs should not rely on a system of record
+Realtime / collaborative updating should be built in
+Should support partial sync (client only needs a subset of the data)
+
+
+Gathering:
+On A:
+- Everything with no sync date
+- Everything (with "modified_at" or "deleted_at" after "last_sync with client B") (either on the record itself or global)
+
+On B:
+- Everything with no sync date
+- Everything (with "modified_at" or "deleted_at" after "last_sync with client A")

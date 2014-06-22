@@ -1,0 +1,13 @@
+## OpenTangle is a client for Tangle
+
+### Tangle is a better way to store notes.
+
+Traditional note storage systems are flat, organized and sortable by date or title. In these systems, once you take a note, finding it again requires sorting or searching. This means that maybe you'll see what you wrote again sometime, but the likely scenario is that it's gone for ever, just as if you'd written it on a piece of paper and filed it away in a cabinet. Some note taking systems go beyond this, they allow tagging or sub-notebooks. This is a step in the right direction, but is still lacking. It's too easy to get disoragnized. Create too many tags or too many notebooks and you're back to the same problems you had with flat note taking system or with those old filing cabinets.
+
+Outside those systems, there are ideas like wikis and mindmaps, both of which get much closer to a natural way to organize ideas, but in key ways, they also fall short. Mindmaps quickly become unwieldly with more than thirty or forty notes. Wiki's are notoriously hard to organize, and especially re-organize.
+
+Tangle wants to solve those problems. It's a system that will let you keep all your notes in one place. A place where your collection of ideas can grow elegantly in a way that benefits from expansion rather than becoming a disorganized mess. Whether you have 10 notes or 100,000 they'll be visible and available for you to re-discover, create patterns, be more creative and have what you're looking for at hand when you need it.
+
+### Technical Details
+
+As of now, this is a very much unfinished demo. It's a Ruby on Rails app with a small Angular.js front-end that shows the basic idea. The UI is not anywhere near finalized and while the database structure is subject to change. Basically, things are just getting started...

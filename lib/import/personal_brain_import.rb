@@ -1,24 +1,22 @@
 require 'nokogiri'
 class Import::PersonalBrainImport
 
-  def get_doc#(path = 'import/marcus_brain.xml')
-    #path = 'import/TestBrain.xml'
-    path = 'import/marcus_brain2.xml'
+  def get_doc(filename)
+    path = "import/#{filename}"
     f = File.open(path)
     @doc = Nokogiri::XML(f) do |config|
       #config.options = Nokogiri::XML::ParseOptions.NOENT
       config.strict.noent
     end
     f.close
-    #@doc
   end
 
   def doc
     @doc
   end
 
-  def import
-    get_doc unless @doc
+  def import(filename = 'TestBrain.xml')
+    get_doc(filename) unless @doc
 
     @node_map = {}
     @thoughts = @doc.xpath('//Thought')
