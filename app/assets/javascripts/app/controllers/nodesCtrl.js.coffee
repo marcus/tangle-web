@@ -59,6 +59,7 @@
     $scope.parentNodes = node.parents # These come down with the primaryNode
     siblingUuids = []
     _.each(node.parents, (p) => siblingUuids = siblingUuids.concat(p.child_uuids))
+    _.remove(siblingUuids, (uuid) -> uuid == node.uuid) # Parent is not also a sibling
     $scope.siblingNodes = tryNodes(siblingUuids)
     # Now that child, parent, companion nodes are queued, fetch it
     fetchList(cacheQueue) if cacheQueue.length > 0

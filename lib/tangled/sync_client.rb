@@ -1,5 +1,5 @@
 module Tangled
-  # This is an example client, what things would look like on a phone or tablet
+  # This is an (incomplete) example client, what things would look like on a phone or tablet
   # Client asks, then puts and resolves conflicts (does all the work)
   # server is just sends data, writes data and validates
   class SyncClient

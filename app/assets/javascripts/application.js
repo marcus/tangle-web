@@ -5,7 +5,7 @@
 // the compiled file.
 //
 //= #require jquery-2.1.1.min
-//= require underscore-min
+//= require lodash
 //= require angular
 //= require angular-resource.min
 //= require angular-route.min
