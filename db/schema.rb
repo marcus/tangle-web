@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20140514035029) do
     t.string   "node_b_uuid", limit: 36
     t.integer  "direction"
     t.datetime "activated"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "links", ["direction"], name: "index_links_on_direction", using: :btree
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20140514035029) do
     t.text     "title",                  null: false
     t.text     "description"
     t.datetime "activated"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "nodes", ["title"], name: "index_nodes_on_title", using: :btree
