@@ -6,22 +6,18 @@ angular.module("nodeResource", ["ngResource"]).
     { update:{ method: "PUT"}}
 )
 
-# This line is related to our Angular app, not to our
-# NodesCtrl specifically. This is basically how we tell
-# Angular about the existence of our application.
+# Define the applcation
 @tangle = angular.module('tangle', ['ngRoute', 'nodeResource'])
 
-# This routing directive tells Angular about the default
-# route for our application. The term "otherwise" here
-# might seem somewhat awkward, but it will make more
-# sense as we add more routes to our application.
+# This routing directive tells Angular about the default route for our application. The term "otherwise" here
+# might seem somewhat awkward, but it will make more sense as we add more routes to our application.
 @tangle.config(['$routeProvider', ($routeProvider) ->
   $routeProvider.
     when('/nodes/:id', {
-      templateUrl: '../templates/node.html',
+      templateUrl: '../templates/nodesView.html',
       controller: 'NodesCtrl'
     }).otherwise({
-      templateUrl: '../templates/node.html',
+      templateUrl: '../templates/nodesView.html',
       controller: 'NodesCtrl'
     })
 ])
@@ -39,5 +35,3 @@ angular.module("nodeResource", ["ngResource"]).
 @tangle.filter('unsafe', ($sce) ->
   (val) -> $sce.trustAsHtml(val)
 )
-
-#angular.module('tangle', ['nodeResource']).run()

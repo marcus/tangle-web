@@ -14,3 +14,4 @@
 //= require lib/tangle_namespace
 //= require lib/namespace
 //= require app/controllers/nodesCtrl
+//= require app/directives/node
