@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 4.1.0'
+gem 'rails', '~> 4.2.5'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -46,9 +46,11 @@ gem 'jquery-rails'
 gem 'unicorn'
 
 group :test, :development, :profile do
-  gem 'jazz_hands'
+  #gem 'jazz_hands'
 end
 gem 'hirb'
+
+gem 'mongoid'
 
 # Deploy with Capistrano
 # gem 'capistrano'

@@ -55,10 +55,21 @@ class Import::PersonalBrainImport
     # Get the PB node content and guid
     content = thought.xpath('name')[0].content
     guid = thought.xpath('guid')[0].content
+    created_at = thought.xpath('creationDateTime')[0].content
+    updated_at = thought.xpath('realModificationDateTime').content
+    activated = thought.xpath('activationDateTime')[0].content
 
     # Save a tangle node
-    tangle_node = Node.new(:title => content)#, :description => description)
+    tangle_node = Node.new(
+      :title => content,
+      :created_at => created_at,
+      :updated_at => updated_at,
+      :activated => activated
+    )#, :description => description)
     tangle_node.save
+
+    ## Currently ignoring labels
+    ## Currently ignoring types
 
     # Save the node to the map
     @node_map[guid] = tangle_node.uuid
@@ -91,13 +102,18 @@ class Import::PersonalBrainImport
     guid_a = l.xpath('idA')[0].try(:content)
     guid_b = l.xpath('idB')[0].try(:content)
     direction = l.xpath('dir')[0].try(:content)
+    created_at = l.xpath('creationDateTime')[0].content
+    updated_at = l.xpath('modificationDateTime').content
     # 1 = source is parent of destination
     # 2 = source is child of destination
     # 3 = companions
     if guid_a && guid_b && direction
       link = Link.new(:node_a_uuid => get_tangle_uuid(guid_a),
                       :node_b_uuid => get_tangle_uuid(guid_b),
-                      :direction => direction)
+                      :direction => direction,
+                      :created_at => created_at,
+                      :updated_at => updated_at
+                     )
       link.save
     end
   end

@@ -5,6 +5,9 @@ NodeDirective = ->
   #replace: true
   #transclude : true
 
+  scope: {
+  }
+
   templateUrl: '../templates/node.html'
 
   link: ($scope, $element, $attrs) ->

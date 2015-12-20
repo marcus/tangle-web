@@ -6,3 +6,8 @@ tmp/
 .sass-cache/
 vendor/bundler_gems
 import/marcus_brain.xml
+import/marcus_brain1.xml
+import/Marcus.xml
+tags
+tags.lock
+tags.temp

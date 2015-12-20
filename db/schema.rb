@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140514035029) do
   enable_extension "plpgsql"
   enable_extension "pg_trgm"
 
-  create_table "links", id: false, force: true do |t|
+  create_table "links", id: false, force: :cascade do |t|
     t.string   "uuid",        limit: 36
     t.string   "node_a_uuid", limit: 36
     t.string   "node_b_uuid", limit: 36
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20140514035029) do
   add_index "links", ["node_b_uuid"], name: "index_links_on_node_b_uuid", using: :btree
   add_index "links", ["uuid"], name: "index_links_on_uuid", unique: true, using: :btree
 
-  create_table "nodes", id: false, force: true do |t|
+  create_table "nodes", id: false, force: :cascade do |t|
     t.string   "uuid",        limit: 36
     t.text     "title",                  null: false
     t.text     "description"
